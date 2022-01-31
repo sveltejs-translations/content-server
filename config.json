@@ -1,0 +1,6 @@
+{
+  "sources": {
+    "svelte": "sveltejs/svelte/site/content",
+    "kit": "sveltejs/kit/documentation"
+  }
+}

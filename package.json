@@ -1,0 +1,30 @@
+{
+  "name": "content-server",
+  "version": "0.1.0",
+  "description": "API, which provided translated content for svelte's sites.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node scripts/server-dev",
+    "start": "node scripts/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sveltejs-translations/content-server.git"
+  },
+  "author": "Alexey Schebelev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sveltejs-translations/content-server/issues"
+  },
+  "homepage": "https://github.com/sveltejs-translations/content-server#readme",
+  "dependencies": {
+    "derver": "^0.5.3",
+    "fetch-repo-dir": "^1.0.6",
+    "transform-docs": "github:sveltejs-translations/transform-docs"
+  },
+  "devDependencies": {
+    "kleur": "^4.1.4",
+    "node-watch": "^0.7.3",
+    "prompts": "^2.4.2"
+  }
+}
