@@ -1,4 +1,6 @@
-All translated content for Svelte's sites is storing here. This is a copy of official Svelte's API server, but it supports multilangual output.
+# Unoffocial Svelte's Sites Content Server
+
+All translated content for Svelte's sites is here. This is a copy of official Svelte's API server, but it supports multilangual output.
 
 Root of API server is `https://api.svelte.cf`. You can replace `https://api.svelte.dev` by `https://api.svelte.cf/en` in your copy of official site to get content data from this API server instead official one. Also you can request any other existing locale like `https://api.svelte.cf/ru`.
 
