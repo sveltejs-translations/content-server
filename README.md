@@ -1,6 +1,6 @@
 All translated content for Svelte's sites is storing here. This is a copy of official Svelte's API server, but it supports multilangual output.
 
-Root of API server is `https://svelte-api.cf`. You can replace `https://api.svelte.dev` by `https://svelte-api.cf/en` in your copy of official site to get content data from this API server instead official one. Also you can request any other existing locale like `https://svelte-api.cf/ru`.
+Root of API server is `https://api.svelte.cf`. You can replace `https://api.svelte.dev` by `https://api.svelte.cf/en` in your copy of official site to get content data from this API server instead official one. Also you can request any other existing locale like `https://api.svelte.cf/ru`.
 
 ## Contributing
 
@@ -12,7 +12,7 @@ Currently we support two projects:
 * `svelte` - main svelte site [svelte.dev](https://svelte.dev)
 * `kit` - SvelteKit site [kit.svelte.dev](https://kit.svelte.dev)
 
-### Adding new translation
+### Add new translation
 
 1. Create directory for your new locale (if not exists) under `docs` directory.
 2. Create directory for project (if not exists) under `docs/{locale}` directory.
@@ -21,15 +21,17 @@ Currently we support two projects:
 
 ### Development mode
 
-You can launch APY server locally by running `npm run dev`. You will be asked for needed locale and project. API server will be update its content whenever you change files in corresponding documentation directory.
+You can launch API server locally by running `npm run dev`. You will be asked for needed locale and project. The API server will update its content whenever you change files in corresponding documentation directory.
 
 You may test API output by pointing your browser on `http://localhost:3030/{choosen_locale}/docs/{choosen_project}/docs`.
 
-Clone from [official repo](https://github.com/sveltejs/sites) and run locally the site of choosen project to test content live. Be sure you set right API URL in `svelte.config.js` file:
+To view translation result, run Svelte or SvelteKit site in dev mode beside the API server.  Clone it from [official repo](https://github.com/sveltejs/sites) and run locally the site of choosen project. Be sure you set right API URL in `svelte.config.js` file:
 
 ```js
 process.env.VITE_API_BASE = process.env.DOCS_PREVIEW
 	? 'http://localhost:3030/ru'
-	: 'https://svelte-api.cf/ru';
+	: 'https://api.svelte.cf/ru';
 
 ```
+
+To test russian locale the best choice is to clone repo of localized sites from [sveltejs-translations/russian-sites](https://github.com/sveltejs-translations/russian-sites) repo. The API URL is preconfigured, so just run `npm run dev:svelte` or `npm run dev:kit` to see result.
