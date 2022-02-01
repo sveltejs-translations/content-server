@@ -11,6 +11,11 @@ exports.errorMiddleware = function (req, res, next) {
   next();
 }
 
+exports.corsMiddleware = function (req,res,next){
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+}
+
 exports.docsMiddleware = function (){
   let docs = {};
 

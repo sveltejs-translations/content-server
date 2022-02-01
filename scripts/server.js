@@ -1,6 +1,11 @@
 const {derver} = require("derver");
 
-const {errorMiddleware,notFoundMiddleware,docsMiddleware} = require("./middlewares");
+const {
+  errorMiddleware,
+  notFoundMiddleware,
+  docsMiddleware,
+  corsMiddleware
+} = require("./middlewares");
 
 const fetchSources = require('./fetch_sources');
 const mergeTranslation = require('./merge_translation');
@@ -30,7 +35,7 @@ const PORT = process.env.PORT || 3030;
 
   console.log(`Listening on ${HOST}:${PORT}`);
 
-  server.use(errorMiddleware);
+  server.use(errorMiddleware,corsMiddleware);
   server.use('/:locale/docs/:project/:type',docsMw);
   server.use('/:locale/docs/:project/:type/:slug',docsMw);
   server.use(notFoundMiddleware);

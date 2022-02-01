@@ -3,7 +3,12 @@ const watch = require('node-watch');
 const path = require('path');
 const {bold,green,yellow} = require("kleur");
 
-const {errorMiddleware,notFoundMiddleware,docsMiddleware} = require("./middlewares");
+const {
+  errorMiddleware,
+  notFoundMiddleware,
+  docsMiddleware,
+  corsMiddleware
+} = require("./middlewares");
 const {askLocaleAndProject} = require("./lib");
 
 const fetchSources = require('./fetch_sources');
@@ -35,7 +40,7 @@ const PORT = process.env.PORT || 3030;
 
   console.log(`Listening on ${HOST}:${PORT}`);
 
-  server.use(errorMiddleware);
+  server.use(errorMiddleware,corsMiddleware);
   server.use('/:locale/docs/:project/:type',docsMw);
   server.use('/:locale/docs/:project/:type/:slug',docsMw);
   server.use(notFoundMiddleware);
