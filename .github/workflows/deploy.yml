@@ -1,0 +1,59 @@
+name: Deploy ru.kit.svelte.dev
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - '.github/workflows/track-*.yml'
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+
+      - name: Installing deps
+        run: npm install
+
+      - name: Build documentation and server app
+        run: npm run build
+
+      - name: Copy Dockerfile to dist dir
+        run: cp Dockerfile dist/
+
+      - name: Packing to archive
+        run: cd dist && tar -czvf files.tar.gz ./*
+
+      - name: Copy archive to the server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: dist/files.tar.gz
+          remote: /tmp/content-server/files.tar.gz
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+
+      - name: Build and start Docker container
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: |
+            cd /tmp/content-server
+            tar -xvf files.tar.gz && rm files.tar.gz
+            docker build -t svelte-content-server .
+            docker stop Svelte-Content-Server
+            docker rm Svelte-Content-Server
+            docker run -d -p 3001:3030 --name Svelte-Content-Server --restart=unless-stopped svelte-content-server
+            rm -rf /tmp/content-server
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
