@@ -30,4 +30,4 @@ const app = new App({
 });
 ```
 
-При необходимости можно взаимодействовать с `app`, используя [API компонента](/docs#run-time-client-side-component-api).
+При необходимости можно взаимодействовать с `app`, используя [API компонента](/docs#rantajm-api-komponenta-na-kliente).
