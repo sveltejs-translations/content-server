@@ -1,4 +1,4 @@
-name: Deploy ru.kit.svelte.dev
+name: Deploy
 
 on:
   push:
