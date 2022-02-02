@@ -1,4 +1,7 @@
 const {derver} = require("derver");
+const fs = require("fs/promises");
+const path = require('path');
+const {JSONFILE} = require('./paths');
 
 const {
   errorMiddleware,
@@ -7,18 +10,12 @@ const {
   corsMiddleware
 } = require("./middlewares");
 
-const fetchSources = require('./fetch_sources');
-const mergeTranslation = require('./merge_translation');
-const generateJson = require('./generate_json');
-
 const HOST = process.env.HOST || '0.0.0.0';
 const PORT = process.env.PORT || 3030;
 
 
 (async ()=>{
-  await fetchSources();
-  await mergeTranslation();
-  const DOCS = await generateJson();
+  const DOCS = await loadDocs(path.join(__dirname,JSONFILE)); 
 
   const docsMw = docsMiddleware();
   docsMw.update(DOCS);
@@ -40,3 +37,9 @@ const PORT = process.env.PORT || 3030;
   server.use('/:locale/docs/:project/:type/:slug',docsMw);
   server.use(notFoundMiddleware);
 })();
+
+async function loadDocs(file){
+  console.log('Loading docs from JSON file...');
+  const json = await fs.readFile(file,'utf-8');
+  return JSON.parse(json);
+}

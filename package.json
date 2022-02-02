@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "node scripts/server-dev",
-    "start": "node scripts/server"
+    "build": "node scripts/build",
+    "start": "node dist"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "transform-docs": "github:sveltejs-translations/transform-docs"
   },
   "devDependencies": {
+    "esbuild": "^0.14.17",
     "kleur": "^4.1.4",
     "node-watch": "^0.7.3",
     "prompts": "^2.4.2"
