@@ -81,16 +81,12 @@ title: Макеты
 // declaration type
 // * also see type for `LoadOutput` in the Loading section
 
-export interface ErrorLoadInput<
-	PageParams extends Record<string, string> = Record<string, string>,
-	Stuff extends Record<string, any> = Record<string, any>,
-	Session = any
-> extends LoadInput<PageParams, Stuff, Session> {
-	status?: number;
-	error?: Error;
-}
+export interface ErrorLoadInput<Params extends Record<string, string> = Record<string, string>>
+ 	extends LoadInput<Params> {
+ 	status?: number;
+ 	error?: Error;
+ }
 ```
-
 
 Если в компоненте`__error.svelte` есть функция [`load`](#zagruzka-dannyh), она будет вызываться со свойствами `error` и `status`:
 

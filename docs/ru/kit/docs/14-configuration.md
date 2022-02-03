@@ -66,11 +66,10 @@ const config = {
 			register: true,
  			files: (filepath) => !/\.DS_STORE/.test(filepath)
  		},
-		target: null,
 		trailingSlash: 'never',
 		version: {
  			name: Date.now().toString(),
- 			pollInterval: 0,
+ 			pollInterval: 0
  		},
 		vite: () => ({})
 	},
@@ -227,7 +226,6 @@ Permissions-Policy: Interest-cohort = ()
      export default {
      	kit: {
      		adapter: static(),
-     		target: '#svelte',
      		prerender: {
      			onError: handleError
      		}
@@ -245,10 +243,6 @@ Permissions-Policy: Interest-cohort = ()
 
 - `register` - если установлено значение `false`, отключит автоматическую регистрацию сервис-воркера
 - `files` - функция типа `(filepath: string) => boolean`. Когда возвращает `true`, включенные файлы будут доступны в `$service-worker.files`, или исключены если `false`.
-
-### target
-
-Задаёт элемент, в который будет смонтировано приложение. Это должен быть DOM-селектор, который идентифицирует элемент, существующий в вашем файле шаблона. Если значения не указано, приложение будет смонтировано в `document.body`.
 
 ### trailingSlash
 

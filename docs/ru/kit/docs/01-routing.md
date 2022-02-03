@@ -54,15 +54,15 @@ title: Маршруты
 // Declaration types for Endpoints
 // * declarations that are not exported are for internal use
 
-export interface RequestEvent<Locals = Record<string, any>, Platform = Record<string, any>> {
+export interface RequestEvent {
  	request: Request;
  	url: URL;
  	params: Record<string, string>;
- 	locals: Locals;
-	platform: Platform;
+ 	locals: App.Locals;
+	platform: App.Platform;
 }
 
-type Body = JSONString | Uint8Array | ReadableStream | stream.Readable;
+type Body = JSONValue | Uint8Array | ReadableStream | stream.Readable;
 
  export interface EndpointOutput<Output extends Body = Body> {
 	status?: number;
@@ -75,17 +75,13 @@ interface Fallthrough {
  	fallthrough: true;
 }
 
-
-export interface RequestHandler<
- 	Locals = Record<string, any>,
- 	Platform = Record<string, any>,
- 	Output extends Body = Body
- > {
- 	(event: RequestEvent<Locals, Platform>): MaybePromise<
- 		Either<Response | EndpointOutput<Output>, Fallthrough>
- 	>;
-}
+export interface RequestHandler<Output extends Body = Body> {
+ 	(event: RequestEvent): MaybePromise<Either<Response | EndpointOutput<Output>, Fallthrough>>;
+ }
 ```
+
+> См. раздел [TypeScript](#typescript) для получения информации о `App.Locals` и `App.Platform`.
+
 Например, наша гипотетическая страница блога `/blog/cool-article`, может запрашивать данные из `/blog/cool-article.json`, который может быть представлен эндпоинтом `src/routes/blog/[slug].json.js`:
 
 ```js

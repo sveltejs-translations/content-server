@@ -22,24 +22,28 @@ title: Хуки
 // everything else must be a type of string
 type ResponseHeaders = Record<string, string | string[]>;
 
-export interface RequestEvent<Locals = Record<string, any>, Platform = Record<string, any>> {
-	request: Request;
+export interface RequestEvent {
+ 	request: Request;
  	url: URL;
-	params: Record<string, string>;
-	locals: Locals;
-	platform: Platform;
-}
+ 	params: Record<string, string>;
+ 	locals: App.Locals;
+ 	platform: App.Platform;
+ }
 
 export interface ResolveOpts {
  	ssr?: boolean;
 }
 
-export interface Handle<Locals = Record<string, any>, Platform = Record<string, any>> {
- 	event: RequestEvent<Locals, Platform>;
- 		resolve(event: RequestEvent<Locals, Platform>, opts?: ResolveOpts): MaybePromise<Response>;
+export interface Handle {
+ 	(input: {
+ 		event: RequestEvent;
+ 		resolve(event: RequestEvent, opts?: ResolveOpts): MaybePromise<Response>;
  	}): MaybePromise<Response>;
-}
+ }
 ```
+
+> См. раздел [TypeScript](#typescript) для получения информации о `App.Locals` и `App.Platform`.
+
 Чтобы передать какие-либо дополнительные данные, которые нужно иметь в эндпоинтах, добавьте объект `event.locals`, как показано ниже:
 
 ```js
@@ -83,8 +87,8 @@ export async function handle({ event, resolve }) {
 
 ```ts
 // Declaration types for handleError hook
-export interface HandleError<Locals = Record<string, any>, Platform = Record<string, any>> {
-	(input: { error: Error & { frame?: string }; event: RequestEvent<Locals, Platform> }): void;
+export interface HandleError {
+ 	(input: { error: Error & { frame?: string }; event: RequestEvent }): void;
 }
 ```
 
@@ -107,13 +111,9 @@ export async function handleError({ error, event }) {
 
 ```ts
 // Declaration types for getSession hook
-export interface GetSession<
- 	Locals = Record<string, any>,
- 	Platform = Record<string, any>,
- 	Session = any
- > {
- 	(event: RequestEvent<Locals, Platform>): MaybePromise<Session>;
-}
+export interface GetSession {
+ 	(event: RequestEvent): MaybePromise<App.Session>;
+ }
 ```
 
 ```js
