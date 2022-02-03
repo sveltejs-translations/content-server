@@ -5,15 +5,15 @@ author: Daniel Sandoval
 authorURL: https://desandoval.net
 ---
 
-Всем счастливого Февраля! За последний месяц или около того, мы увидели как [быстро развивались](accelerating-sveltes-development) Svelte и Sveltekit, новые правила сообщества в [Reddit](https://www.reddit.com/r/sveltejs/comments/s9n8ou/new_rules/), [GitHub](https://github.com/sveltejs/community/blob/main/CODE_OF_CONDUCT.md) and [Discord](https://discord.com/channels/457912077277855764/831611707667382303/935264550436102315), и довольно много удивительных приложений, учебников и библиотек.
+Всем счастливого Февраля! За последний месяц или около того, мы увидели как [быстро развивались](accelerating-sveltes-development) Svelte и Sveltekit, новые правила сообщества в [Reddit](https://www.reddit.com/r/sveltejs/comments/s9n8ou/new_rules/), [GitHub](https://github.com/sveltejs/community/blob/main/CODE_OF_CONDUCT.md) и [Discord](https://discord.com/channels/457912077277855764/831611707667382303/935264550436102315), и довольно много удивительных приложений, учебников и библиотек.
 
 Посмотрим...
 
 ## Основные моменты в Svelte ChangeLog
-- **3.45.0** [новый a11y warning `a11y-no-redundant-roles`](https://svelte.dev/docs#accessibility-warnings-a11y-no-redundant-roles), исправлена деструктуризация и кеширование
-- **3.46.0** [`{@const}` tag](https://svelte.dev/docs#template-syntax-const) и [`style:` directive](https://svelte.dev/docs#template-syntax-element-directives-style-property)
+- **3.45.0** [новый a11y warning `a11y-no-redundant-roles`](https://ru.svelte.dev/docs#preduprezhdeniya-a11y-a11y-no-redundant-roles), исправлена деструктуризация и кеширование
+- **3.46.0** [`{@const}` tag](https://ru.svelte.dev/docs#sintaksis-shablonov-const) и [`style:` directive](https://ru.svelte.dev/docs#sintaksis-shablonov-direktivy-elementov-style-property)
 - В версиях **3.46.1 - 3.46.3** исправлены баги тега `{@const}` и директивы `style:`, вместе с рядом исправлений к анимациям
-- [AST output is now available in the Svelte REPL](https://svelte.dev/repl/hello-world)
+- [AST output is now available in the Svelte REPL](https://ru.svelte.dev/repl/hello-world)
 
 ## Что нового в SvelteKit
 - `inlineStyleThreshold` позволяет указать, куда встроенные таблицы стилей вставляются на страницу ([Docs](https://ru.kit.svelte.dev/docs#konfiguracziya-inlinestylethreshold), [#2620](https://github.com/sveltejs/kit/pull/2620))
@@ -63,7 +63,7 @@ authorURL: https://desandoval.net
 **Обучение**
 
 _Почитать_
-[Ускорение разработки Svelte](https://svelte.dev/blog/accelerating-sveltes-development) Бена Макканна
+[Ускорение разработки Svelte](https://ru.svelte.dev/blog/accelerating-sveltes-development) Бена Макканна
 - [Сборник рассказов для Vite] (https://storybook.js.org/blog/storybook-for-vite/)
 - [Давайте изучим SvelteKit, создав с нуля статический блог Markdown](https://joshcollinsworth.com/blog/build-static-sveltekit-markdown-blog) Джоша Коллинсворта.
 - [Создание приложения для iOS с помощью Svelte, Capacitor и Firebase](https://harryherskowitz.com/2022/01/05/tapedrop-app.html), Гарри Херсковиц.
