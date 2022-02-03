@@ -41,6 +41,7 @@ const PORT = process.env.PORT || 3030;
   console.log(`Listening on ${HOST}:${PORT}`);
 
   server.use(errorMiddleware,corsMiddleware);
+  server.use('/:locale/docs/:project',docsMw);
   server.use('/:locale/docs/:project/:type',docsMw);
   server.use('/:locale/docs/:project/:type/:slug',docsMw);
   server.use(notFoundMiddleware);

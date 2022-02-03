@@ -26,15 +26,19 @@ exports.docsMiddleware = function (){
     if(!docs[locale]) return res.error('Wrong locale');
     if(!docs[locale][project]) return res.error('Wrong project');
 
-    const content = docs[locale][project].find( cnt => cnt.type === type);
-    if(!content) return res.error('Wrong type');
+    if(type){
+      const content = docs[locale][project].find( cnt => cnt.type === type);
+      if(!content) return res.error('Wrong type');
 
-    if(slug){
-      const section = content.content.full.find(sec => sec.slug === slug);
-      if(!section) return res.error('Wrong slug');
-      res.body = JSON.stringify(section);
+      if(slug){
+        const section = content.content.full.find(sec => sec.slug === slug);
+        if(!section) return res.error('Wrong slug');
+        res.body = JSON.stringify(section);
+      }else{
+        res.body = JSON.stringify((full ? content.content.full : content.content.list));
+      }
     }else{
-      res.body = JSON.stringify((full ? content.content.full : content.content.list));
+      res.body = JSON.stringify(docs[locale][project]);
     }
     res.setHeader('Content-Type', 'application/json');
     next();
