@@ -37,3 +37,7 @@ process.env.VITE_API_BASE = process.env.DOCS_PREVIEW
 ```
 
 To test russian locale the best choice is to clone repo of localized sites from [sveltejs-translations/russian-sites](https://github.com/sveltejs-translations/russian-sites) repo. The API URL is preconfigured, so just run `npm run dev:svelte` or `npm run dev:kit` to see result.
+
+## Keep actual!
+
+We have a bot, which tracks changes in official documentation and post list in [Issues](https://github.com/sveltejs-translations/content-server/issues?q=) section. Please post a comment in each issue like 'RU translated', when you translate theese changes into your local. Then other contibutors will skip it and take another one.
