@@ -16,21 +16,21 @@ authorURL: https://desandoval.net
 - [AST output is now available in the Svelte REPL](https://svelte.dev/repl/hello-world)
 
 ## Что нового в SvelteKit
-- `inlineStyleThreshold` позволяет указать, куда встроенные таблицы стилей вставляются на страницу ([Docs](https://kit.svelte.dev/docs#configuration-inlinestylethreshold), [#2620](https://github.com/sveltejs/kit/pull/2620))
-- Функции жизненного цикла `beforeNavigate`/`afterNavigate` позволяют добавлять функциональность до или после навигации по странице ([Docs](https://kit.svelte.dev/docs#modules-$app-navigation), [#3293](https://github.com/sveltejs/kit/pull/3293))
-- Контекст платформы теперь может передаваться с адаптеров ([Docs](https://kit.svelte.dev/docs#adapters-supported-environments-platform-specific-context), [#3429](https://github.com/sveltejs/kit/pull/3429))
-- Хуки теперь имеют параметр `ssr` в `resolve`, чтобы облегчить пропуск SSR, когда это необходимо ([Docs](https://kit.svelte.dev/docs#hooks-handle), [#2804](https://github.com/sveltejs/kit/pull/280
-- `$page.stuff` предоставляет страницам механизм передачи данных «вверх» на макеты ([Docs](https://kit.svelte.dev/docs#loading-input-stuff), [#3252](https://github.com/sveltejs/kit/pull/3252))
-- Fallthrough routes позволяют указать, куда маршрутизировать, когда маршрут не может быть загружен ([Docs](https://kit.svelte.dev/docs#routing-advanced-fallthrough-routes), [#3217](https://github.com/sveltejs/kit/pull/3217))
+- `inlineStyleThreshold` позволяет указать, куда встроенные таблицы стилей вставляются на страницу ([Docs](https://ru.kit.svelte.dev/docs#konfiguracziya-inlinestylethreshold), [#2620](https://github.com/sveltejs/kit/pull/2620))
+- Функции жизненного цикла `beforeNavigate`/`afterNavigate` позволяют добавлять функциональность до или после навигации по странице ([Docs](https://ru.kit.svelte.dev/docs#moduli-$app-navigation), [#3293](https://github.com/sveltejs/kit/pull/3293))
+- Контекст платформы теперь может передаваться с адаптеров ([Docs](https://ru.kit.svelte.dev/docs#adaptery-podderzhivaemye-platformy-kontekst-speczifichnyj-dlya-platformy), [#3429](https://github.com/sveltejs/kit/pull/3429))
+- Хуки теперь имеют параметр `ssr` в `resolve`, чтобы облегчить пропуск SSR, когда это необходимо ([Docs](https://ru.kit.svelte.dev/docs#huki-handle), [#2804](https://github.com/sveltejs/kit/pull/280)
+- `$page.stuff` предоставляет страницам механизм передачи данных «вверх» на макеты ([Docs](https://ru.kit.svelte.dev/docs#zagruzka-dannyh-poluchaemye-znacheniya-stuff), [#3252](https://github.com/sveltejs/kit/pull/3252))
+- Перебор маршрутов позволяет указать, куда маршрутизировать, когда маршрут не может быть загружен ([Docs](https://ru.kit.svelte.dev/docs#marshruty-dopolnitelno-perebor-marshrutov), [#3217](https://github.com/sveltejs/kit/pull/3217))
 
 **Новое в конфиге**
-- Политика безопасности контента (CSP) теперь поддерживается для повышения безопасности при использовании встроенных javascript или таблиц стилей ([Docs](https://kit.svelte.dev/docs#configuration-csp), [#3499](https://github.com/sveltejs/kit/pull/3499))
-- Конфигурация `kit.routes` позволяет настраивать публичные/частные модули во время сборки ([Docs](https://kit.svelte.dev/docs#configuration-routes), [#3576](https://github.com/sveltejs/kit/pull/3576))
-- Конфигурация `prerender.createIndexFiles` позволяет предварительно рендерить файлы index.html в качестве имени их подпапки ([Docs](https://kit.svelte.dev/docs#configuration-prerender), [#2632](https://github.com/sveltejs/kit/pull/2632))
-- Методы HTTP теперь можно переопределить с помощью `kit.methodOverride` ([Docs](https://kit.svelte.dev/docs#routing-endpoints-http-method-overrides), [#2989](https://github.com/sveltejs/kit/pu
+- Политика безопасности контента (CSP) теперь поддерживается для повышения безопасности при использовании встроенных javascript или таблиц стилей ([Docs](https://ru.kit.svelte.dev/docs#konfiguracziya-csp), [#3499](https://github.com/sveltejs/kit/pull/3499))
+- Конфигурация `kit.routes` позволяет настраивать публичные/частные модули во время сборки ([Docs](https://ru.kit.svelte.dev/docs#konfiguracziya-routes), [#3576](https://github.com/sveltejs/kit/pull/3576))
+- Конфигурация `prerender.createIndexFiles` позволяет предварительно рендерить файлы index.html в качестве имени их подпапки ([Docs](https://ru.kit.svelte.dev/docs#konfiguracziya-prerender), [#2632](https://github.com/sveltejs/kit/pull/2632))
+- Методы HTTP теперь можно переопределить с помощью `kit.methodOverride` ([Docs](https://ru.kit.svelte.dev/docs#marshruty-endpointy-http-metody), [#2989](https://github.com/sveltejs/kit/pu
 
 **Изменения в конфиге**
-- `config.kit.hydrate` и `config.kit.router` теперь вложены в `config.kit.browser` ([Docs](https://kit.svelte.dev/docs#configuration-browser), [3578](https://github.com/sveltejs/kit/pull/3578))
+- `config.kit.hydrate` и `config.kit.router` теперь вложены в `config.kit.browser` ([Docs](https://ru.kit.svelte.dev/docs#konfiguracziya-browser), [3578](https://github.com/sveltejs/kit/pull/3578))
 
 **Критические изменения**
 - использование объектов Request и Response в эндпоинтах и хуках ([#3384](https://github.com/sveltejs/kit/pull/3384))
@@ -42,19 +42,19 @@ authorURL: https://desandoval.net
 
 **Приложения и сайты**
 - [timb(re)](https://paullj.github.io/timb) — среда программирования живой музыки.
-- [Музыка для программирования](https://musicforprogramming.net/latest/) представляет собой серию миксов, предназначенных для прослушивания во время `${task}`, чтобы сосредоточить мозг и вдохновить его.
+- [Music for Programming](https://musicforprogramming.net/latest/) представляет собой серию миксов, предназначенных для прослушивания во время `${task}`, чтобы сосредоточить мозг и вдохновить его.
 - [Team Tale](https://teamtale.app/) позволяет двум авторам написать одну и ту же историю в стиле команды тегов.
 - [Puzzlez](https://www.puzzlez.io/) — онлайн-площадка для игры в судоку и Wordle.
 - [Closed Caption Creator](https://www.closedcaptioncreator.com/) позволяет легко добавлять субтитры к вашему видео в Windows, Mac и Google Chrome.
 - [SC3Lab](https://sc3-lab.netlify.app/) — генератор кода для экспериментов с svelte-cubed и three.js.
 - [Donkeytype](https://github.com/0ql/Donkeytype) — это минималистичный и легкий тест набора текста, вдохновленный Monkeytype.
-- [Выше](https://above.silas.pro/) — это визуальный таймер, созданный для людей с СДВГ/аутизмом.
+- [Above](https://above.silas.pro/) — это визуальный таймер, созданный для людей с СДВГ/аутизмом.
 - [base.report](https://base.report/) — современная исследовательская платформа для серьезных инвесторов
 - [String](https://string.kampsy.xyz/) превращает ваш телефон в безопасный портативный диктофон, позволяя легко записывать и делиться личными заметками, семейными моментами, лекциями в классе и многим другим.
 - [The Raytracer Challenge REPL](https://github.com/jakobwesthoff/the_raytracer_challenge_repl) предоставляет интерфейс живого редактора для настройки сцены с трассировкой лучей и визуализации ее в реальном времени в любом современном браузере.
 - [awesome-svelte-kit](https://github.com/janosh/awesome-svelte-kit) — список замечательных примеров использования SvelteKit в дикой природе.
-- [Обозреватель картографических проекций](https://www.geo-projections.com/) позволяет исследовать различные картографические проекции и объясняет их различия.
-- [Рубикс](https://github.com/MeharGaur/rubiks) — симулятор кубика Рубика.
+- [Map Projection Explorer](https://www.geo-projections.com/) позволяет исследовать различные картографические проекции и объясняет их различия.
+- [Rubiks](https://github.com/MeharGaur/rubiks) — симулятор кубика Рубика.
 - [Pianisto](https://pianisto.net/) - рабочее пианино, созданное с помощью SVG, ToneJS и большого терпения.
 
 Хотите работать над сайтом SvelteKit вместе с другими [попробуйте внести свой вклад в сайт Svelte Society](https://github.com/svelte-society/sveltesociety-2021/issues)!
@@ -90,7 +90,7 @@ _Послушать_
 - [threlte](https://github.com/grischaerbe/threlte) — это библиотека компонентов из трех.js для Svelte.
 - [svelte-formify](https://github.com/nodify-at/svelte-formify) — это библиотека для управления и проверки форм, которая использует декораторы для определения проверок.
 - [gQuery] (https://github.com/leveluptuts/gQuery) — это сборщик и кеширование GraphQL для Svelte Kit.
-- [Протокол разблокировки](https://github.com/novum-insights/sveltekit-unlock-firebase) — это интеграция, помогающая войти в систему с помощью клиентов MetaMask, Firebase и платного доступа.
+- [Unlock-protocol](https://github.com/novum-insights/sveltekit-unlock-firebase) — это интеграция, помогающая войти в систему с помощью клиентов MetaMask, Firebase и платного доступа.
 - [AgnosticUI](https://github.com/AgnosticUI/agnosticui) представляет собой набор примитивов пользовательского интерфейса, которые начинают свою жизнь в чистом HTML и CSS.
 - [Vitebook] (https://github.com/vitebook/vitebook) — это быстрая и легкая альтернатива Storybook на базе Vite.
 - [SwyxKit] (https://swyxkit.netlify.app/) — это самоуверенная стартовая площадка для блогов SvelteKit + Tailwind + Netlify. Обновление к 2022 году!
