@@ -40,19 +40,26 @@ title: Маршруты
 <p>Это самый лучший сайт!</p>
 ```
 
-Динамические параметры задаются при помощи квадратных скобок [...]. Например, можно определить страницу, отображающую статью из блога, таким образом – `src/routes/blog/[slug].svelte`. Скоро мы увидим как получить доступ к этому параметру в 
-[функции load](#zagruzka-dannyh) или [в хранилище страницы](#moduli-$app-stores). 
+Динамические параметры задаются при помощи квадратных скобок [...]. Например, можно определить страницу, отображающую статью из блога, таким образом – `src/routes/blog/[slug].svelte`.
+
+Динамические параметры кодируются с помощью `[brackets]`. Например, сообщение в блоге может быть определено `src/routes/blog/[slug].svelte`.
 
 Файл или каталог может иметь несколько динамических частей, например `[id]-[category].svelte`. (Параметры «не жадные»; и в неоднозначном случае, типа `x-y-z`, `id` будет `x`, а `category` будет `y-z`.)
 
 
 ### Эндпоинты
 
-Эндпоинты — это модули, написанные в файлах `.js` (или `.ts`), которые экспортируют функции, соответствующие HTTP методам.
+Эндпоинты — это модули, написанные в файлах `.js` (или `.ts`), которые экспортируют функции, соответствующие HTTP методам. Их задача — разрешить страницам читать и записывать данные, которые доступны только на сервере (например, в базе данных или в файловой системе).
 
 ```ts
-// Declaration types for Endpoints
-// * declarations that are not exported are for internal use
+// Type declarations for endpoints (declarations marked with
+// an `export` keyword can be imported from `@sveltejs/kit`)
+
+export interface RequestHandler<Output = Record<string, any>> {
+	(event: RequestEvent): MaybePromise<
+		Either<Output extends Response ? Response : EndpointOutput<Output>, Fallthrough>
+	>;
+}
 
 export interface RequestEvent {
  	request: Request;
@@ -62,42 +69,34 @@ export interface RequestEvent {
 	platform: App.Platform;
 }
 
-type Body = JSONValue | Uint8Array | ReadableStream | stream.Readable;
-
- export interface EndpointOutput<Output extends Body = Body> {
-	status?: number;
-	headers?: Headers | Partial<ResponseHeaders>;
- 	body?: Output;
-};
+export interface EndpointOutput<Output = Record<string, any>> {
+ 	status?: number;
+ 	headers?: Headers | Partial<ResponseHeaders>;
+ 	body?: Record<string, any>;
+ }
 
 type MaybePromise<T> = T | Promise<T>;
+
 interface Fallthrough {
  	fallthrough: true;
 }
-
-export interface RequestHandler<Output extends Body = Body> {
- 	(event: RequestEvent): MaybePromise<Either<Response | EndpointOutput<Output>, Fallthrough>>;
- }
 ```
 
 > См. раздел [TypeScript](#typescript) для получения информации о `App.Locals` и `App.Platform`.
 
-Например, наша гипотетическая страница блога `/blog/cool-article`, может запрашивать данные из `/blog/cool-article.json`, который может быть представлен эндпоинтом `src/routes/blog/[slug].json.js`:
+Такая страница, как `src/routes/items/[id].svelte`, может получать данные из `src/routes/items/[id].js`:
 
 ```js
 import db from '$lib/database';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function get({ params }) {
-	// у нас есть доступ к параметру `slug`, потому что
-	// файл называется [slug].json.js
-	const article = await db.get(params.slug);
+	// `params.id` comes from [id].js
+ 	const item = await db.get(params.id);
 
-	if (article) {
+	if (item) {
 		return {
-			body: {
-				article
-			}
+			body: { item }
 		};
 	} 
 
@@ -107,7 +106,7 @@ export async function get({ params }) {
 }
 ```
 <!-- > Если из функции ничего не возвращается, это вызовет ответ с кодом ошибки 404. -->
-> Весь код на стороне сервера, включая конечные точки, имеет доступ к `fetch` на случай, если вам нужно запросить данные из внешних API.
+> Весь код на стороне сервера, включая конечные точки, имеет доступ к `fetch` на случай, если вам нужно запросить данные из внешних API. Не беспокойтесь об импорте `$lib`, мы вернемся к этому [позже](#moduli-$lib).
 
 Цель данной функции – вернуть объект `{ status, headers, body }`, который является ответом на запрос, где `status` является [кодом ответа HTTP](https://httpstatusdogs.com):
 
@@ -116,29 +115,90 @@ export async function get({ params }) {
 - `4xx` — ошибка от клиента
 - `5xx` — ошибка на сервере
 
-Если `body` является объектом и в `headers` нет заголовка `content-type`, то он по автоматически превратится в JSON строку. Пока не обращайте внимание на `$lib`, об этом мы узнаем [позднее](#moduli-$lib).
-
 > Если возвращается `{fallthrough: true}`, SvelteKit будет [перебирать маршруты](#marshruty-dopolnitelno-perebor-marshrutov) пока один из них что-то не вернёт, или вернёт ответ с кодом 404.
 
-Для эндпоинтов, которые должны обрабатывать иные HTTP методы, например POST, экспортируйте соответствующую функцию:
+Возвращаемое `body` соответствует свойствам страницы:
+
+```html
+<script>
+	// populated with data from the endpoint
+	export let item;
+</script>
+
+<h1>{item.title}</h1>
+```
+
+ #### POST, PUT, PATCH, DELETE
+
+Эндпоинты могут обрабатывать любой метод HTTP — не только GET — путем экспорта соответствующей функции:
 
 ```js
 export function post(event) {...}
+export function put(event) {...}
+export function patch(event) {...}
+export function del(event) {...} // `delete` is a reserved word
 ```
 
-Поскольку `delete` является зарезервированным словом JavaScript, запросы методом DELETE обрабатываются функцией с именем `del`.
-
-> Мы не взаимодействуем с объектами `req`/`res`, которые могут быть вам знакомы из Node-модуля `http` или фреймворков типа Express, потому что они доступны только на некоторых платформах. Вместо этого, SvelteKit переводит возвращённый объект в то что будет понятно платформе, куда вы будете загружать своё готовое приложение. 
-
-Чтобы установить несколько файлов cookie в одном наборе заголовков ответа, вы можете вернуть массив:
+Эти функции могут, как и `get`, возвращать `body`, которое будет передано на страницу в качестве реквизита. В то время как ответы 4xx/5xx от `get` приведут к отображению страницы с ошибкой, аналогичные ответы на запросы без GET этого не сделают, что позволяет вам делать такие вещи, как ошибки проверки формы рендеринга:
 
 ```js
-return {
-	headers: {
-		'set-cookie': [cookie1, cookie2]
+ // src/routes/items.js
+import * as db from '$lib/database'; 
+
+export async function get() {
+ 	const items = await db.list();
+	return {
+		body: { items }
+	};
+}
+export async function post({ request }) {
+	const [errors, item] = await db.create(request);
+
+	if (errors) {
+		// return validation errors
+		return {
+			status: 400,
+			body: { errors }
+		};
 	}
-};
+	// redirect to the newly created item
+	return {
+		status: 303,
+		headers: {
+			location: `/items/${item.id}`
+		}
+	};
+}
 ```
+
+```svelte
+<!-- src/routes/items.svelte -->
+<script>
+	// The page always has access to props from `get`...
+	export let items;
+
+	// ...plus props from `post` when the page is rendered
+	// in response to a POST request, for example after
+	// submitting the form below
+	export let errors;
+</script>
+
+{#each items as item}
+	<Preview item={item}/>
+{/each}
+
+<form method="post">
+	<input name="title">
+
+	{#if errors?.title}
+		<p class="error">{errors.title}</p>
+	{/if}
+
+	<button type="submit">Create item</button>
+</form>
+```
+
+Если вы запросите маршрут с заголовком `accept: application/json`, SvelteKit отобразит данные эндпоинта в формате JSON, а не страницу в формате HTML.
 
 #### Body парсинг
 
@@ -148,7 +208,19 @@ return {
 export async function post({ request }) {
 	const data = await request.formData(); // or .json(), or .text(), etc
 }
- ```
+```
+
+#### Setting cookies
+
+Эндпоинты могут устанавливать файлы cookie, возвращая объект заголовков с `set-cookie`.Чтобы установить несколько файлов cookie одновременно, верните массив:
+
+```js
+return {
+	headers: {
+		'set-cookie': [cookie1, cookie2]
+	}
+};
+```
 
 #### HTTP методы
 
@@ -173,16 +245,22 @@ export default {
 
 > Использование собственного поведения `<form>` гарантирует, что ваше приложение продолжит работать при сбое или отключении JavaScript.
 
+### Standalone endpoints
+
+Чаще всего эндпоинты существуют для предоставления данных странице, с которой они связаны. Однако они могут существовать отдельно от страниц. Автономные эндпоинты имеют немного большую гибкость по сравнению с возвращаемым типом `body` — в дополнение к объектам они могут возвращать строку или `Uint8Array`.
+
+> Support for streaming request and response bodies is [coming soon](https://github.com/sveltejs/kit/issues/3419).
+
 ### Приватные модули 
 
 Файлы и каталоги начинающаяся с `_` или `.` (кроме [`.well-known`](https://en.wikipedia.org/wiki/Well-known_URI)) по умолчанию являются частными, что означает, что они не создают маршруты (но могут быть импортированы файлами, которые это делают). Вы можете настроить, какие модули считаются общедоступными или частными, с помощью конфигурации [`routes`](#konfiguracziya-routes).
 
 
-### Дополнительно
+### Расширенная маршрутизация
 
 #### Rest-параметры
 
-Маршрут может иметь несколько динамических параметров, например `src/routes/[category]/[item].svelte`, или даже `src/routes/[category]-[item].svelte`. Если количество частей маршрута заранее неизвестно, можно воспользоваться rest-синтаксисом – например, реализация просмотра файлов на GitHub будет выглядеть так...
+Маршрут может иметь несколько динамических параметров, например `src/routes/[category]/[item].svelte`, или даже `src/routes/[category]-[item].svelte`. (Параметры не жадные; в неоднозначном случае, таком как `/x-y-z`, `category` будет `x`, а `item` будет `y-z`.) Если количество частей маршрута заранее неизвестно, можно воспользоваться rest-синтаксисом – например, реализация просмотра файлов на GitHub будет выглядеть так...
 
 ```bash
 /[org]/[repo]/tree/[branch]/[...file]

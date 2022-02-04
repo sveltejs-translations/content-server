@@ -1,5 +1,5 @@
 ---
-question: Как использовать X вместе со SvelteKit?
+title: Как использовать X вместе со SvelteKit?
 ---
 Убедитесь, что вы прочитали [раздел документации по интеграции](/docs#dopolnitelnye-resursy-integracziya). Если у вас все еще возникают проблемы, ниже перечислены решения распространенных проблем.
 
@@ -13,21 +13,21 @@ question: Как использовать X вместе со SvelteKit?
 `adapter-node` создает мидлвары, которые можно использовать с вашим собственным сервером для производственного режима. В dev вы можете добавить мидлвару в Vite с помощью плагина Vite. Например:
 
 ```js
- const myPlugin = {
-   name: 'log-request-middleware',
-   configureServer(server) {
-     server.middlewares.use((req, res, next) => {
-       console.log(`Got request ${req.url}`);
-       next();
-     })
-   }
- }
+const myPlugin = {
+  name: 'log-request-middleware',
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      console.log(`Got request ${req.url}`);
+      next();
+    });
+  }
+}
 
  /** @type {import('@sveltejs/kit').Config} */
  const config = {
  	kit: {
  		vite: {
- 			plugins: [ myPlugin ]
+ 			plugins: [myPlugin]
  		}
  	}
  };

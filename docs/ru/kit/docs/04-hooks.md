@@ -15,12 +15,8 @@ title: Хуки
 Если функция не задана будет использоваться её вариант по умолчанию `({ event, resolve }) => resolve(event)`.
 
 ```ts
-// Declaration types for Hooks
-// * declarations that are not exported are for internal use
-
-// type of string[] is only for set-cookie
-// everything else must be a type of string
-type ResponseHeaders = Record<string, string | string[]>;
+// Type declarations for `handle` (declarations marked with
+// an `export` keyword can be imported from `@sveltejs/kit`)
 
 export interface RequestEvent {
  	request: Request;
@@ -86,7 +82,6 @@ export async function handle({ event, resolve }) {
 Если не реализовано, SvelteKit зарегистрирует ошибку с форматированием по умолчанию.
 
 ```ts
-// Declaration types for handleError hook
 export interface HandleError {
  	(input: { error: Error & { frame?: string }; event: RequestEvent }): void;
 }
@@ -110,7 +105,6 @@ export async function handleError({ error, event }) {
 Если функция не задана, объект сессии будет равен `{}`.
 
 ```ts
-// Declaration types for getSession hook
 export interface GetSession {
  	(event: RequestEvent): MaybePromise<App.Session>;
  }
@@ -144,8 +138,6 @@ export function getSession(event) {
 Например, ваша функция `load` может делать запрос на публичный URL-адрес, такой как `https://api.yourapp.com`, когда пользователь выполняет навигацию на стороне клиента на соответствующую страницу, но во время SSR может иметь смысл напрямую связаться с API (обходя любые прокси и балансировщики нагрузки, находящие между ним и публичным интернетом).
 
 ```ts
-// Declaration types for externalFetch hook
-
 export interface ExternalFetch {
 	(req: Request): Promise<Response>;
 }

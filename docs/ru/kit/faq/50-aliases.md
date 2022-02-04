@@ -1,5 +1,5 @@
 ---
-question: Как мне настроить подмену пути(aliases)?
+title: Как мне настроить подмену пути(aliases)?
 ---
 
 Сначала её нужно добавить в конфигурацию Vite. В файле `svelte.config.js` добавьте [`vite.resolve.alias`](https://vitejs.dev/config/#resolve-alias):
