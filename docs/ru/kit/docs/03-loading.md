@@ -63,7 +63,7 @@ interface Fallthrough {
 
 `load` в SvelteKit является эквивалентом функциям `getStaticProps` или `getServerSideProps` в Next.js или `asyncData` в Nuxt.js, за исключением того, что она работает как на сервере, так и на клиенте. В приведенном выше примере, если пользователь нажимает на ссылку на эту страницу, данные будут загуржены с `cms.example.com`, не проходя через наш сервер.
 
-Если функция `load` возвращает `{fallthrough: true}`, SvelteKit будет [перебирать маршруты](#marshruty-dopolnitelno-perebor-marshrutov) пока один из них что-то не вернёт, или вернёт ответ с кодом 404.
+Если функция `load` возвращает `{fallthrough: true}`, SvelteKit будет [перебирать маршруты](#marshruty-rasshirennaya-marshrutizacziya-perebor-marshrutov) пока один из них что-то не вернёт, или вернёт ответ с кодом 404.
 
 SvelteKit `load` получает реализацию `fetch`, которая имеет следующие специальные свойства:
 - он имеет доступ к файлам cookie на сервере

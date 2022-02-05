@@ -115,7 +115,7 @@ export async function get({ params }) {
 - `4xx` — ошибка от клиента
 - `5xx` — ошибка на сервере
 
-> Если возвращается `{fallthrough: true}`, SvelteKit будет [перебирать маршруты](#marshruty-dopolnitelno-perebor-marshrutov) пока один из них что-то не вернёт, или вернёт ответ с кодом 404.
+> Если возвращается `{fallthrough: true}`, SvelteKit будет [перебирать маршруты](#marshruty-rasshirennaya-marshrutizacziya-perebor-marshrutov) пока один из них что-то не вернёт, или вернёт ответ с кодом 404.
 
 Возвращаемое `body` соответствует свойствам страницы:
 
