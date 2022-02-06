@@ -4,15 +4,15 @@ title: package.json
 
 ### type : "module"
 
-Добавьте `"type": "module"` в `package.json`. Вы можете выполнить этот шаг отдельно от остальных в рамках инкрементной миграции, если вы используете Sapper 0.29.3 или новее.
+Добавьте `"type": "module"` в `package.json`. Этот шаг можно выполнить отдельно от остальных в рамках инкрементной миграции, если вы используете Sapper 0.29.3 или новее.
 
 ### dependencies
 
-Удалите `polka` или `express`, если вы их используете, а также любые промежуточные обработчики, такие как `sirv` или `compression`.
+Удалите `polka` или `express`, если они есть, а также любые промежуточные обработчики, такие как `sirv` или `compression`.
 
 ### devDependencies
 
-Удалите `sapper` из `devDependencies` и замените его на `@sveltejs/kit` и выбранный вами [адаптер](/docs#adaptery) (на этапе [конфигурации](#fajly-proekta-konfiguracziya)).
+Удалите `sapper` из `devDependencies` и замените его на `@sveltejs/kit` и выбранный [адаптер](/docs#adaptery) (на этапе [конфигурации](#fajly-proekta-konfiguracziya)).
 
 ### scripts
 

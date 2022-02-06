@@ -4,7 +4,7 @@ title: Страницы и макеты
 
 ### Переименованные файлы
 
-Компонент настраиваемой страницы ошибки следует переименовать из `_error.svelte` в `__error.svelte`. Любые `_layout.svelte` файлы также должны быть переименованы в `__layout.svelte`. Префикс `_` теперь обозначает исключительно ваши _собственные_ [private modules](#routing-private-modules), в отличие от тех, которые имеют особое значение для SvelteKit  (configurable via [`routes`](docs#configuration-routes) config).
+Компонент настраиваемой страницы ошибки следует переименовать из `_error.svelte` в `__error.svelte`. Любые `_layout.svelte` файлы также должны быть переименованы в `__layout.svelte`. Префикс `_` теперь обозначает исключительно _собственные_ [private modules](/docs#marshruty-privatnye-moduli), в отличие от тех, которые имеют особое значение для SvelteKit  (configurable via [`routes`](/docs#konfiguracziya-routes) config).
 
 ### Импорты
 
@@ -12,7 +12,7 @@ title: Страницы и макеты
 
 Импорт `stores` из `@sapper/app` следует тоже заменить — подробнее в разделе [Хранилища](#straniczy-i-makety-hranilishha).
 
-Любые файлы, которые вы ранее импортировали из каталогов в `src/node_modules` необходимо будет заменить на импорты из [`$lib`](/docs#moduli-$lib).
+Любые файлы, которые импортировались из каталогов в `src/node_modules` необходимо будет заменить на импорты из [`$lib`](/docs#moduli-$lib).
 
 ### Предварительная загрузка
 
