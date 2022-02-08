@@ -2,7 +2,7 @@
 title: TypeScript
 ---
 
-Все API в SvelteKit полностью набраны. Кроме того, можно сказать SvelteKit, как печатать объекты внутри вашего приложения, объявив пространство имен «App». По умолчанию новый проект будет иметь файл с именем `src/app.d.ts`, содержащий следующее:
+Все API в SvelteKit полностью типизированы. Также можно указать SvelteKit, как типизировать объекты внутри приложения, объявив пространство имен `App`. По умолчанию новый проект будет иметь файл с именем `src/app.d.ts`, содержащий следующее:
 
 ```ts
 /// <reference types="@sveltejs/kit" />
@@ -14,20 +14,20 @@ declare namespace App {
 }
 ```
 
-Заполнив эти интерфейсы, вы получите безопасность типов при использовании `event.locals`, `event.platform`, `session` и `stuff`:
+После заполнения этих интерфейсов, вы получите безопасное использование типов в `event.locals`, `event.platform`, `session` и `stuff`:
 
 ### App.Locals
 
-Интерфейс, который определяет `event.locals`, доступ к которому можно получить в [hooks](#huki) (`handle`, `handleError` и `getSession`) и [endpoints](#marshruty-endpointy).
+Интерфейс, который определяет `event.locals`, доступ к которому можно получить в [хуках](#huki) (`handle`, `handleError` и `getSession`) и [эндпоинтах](#marshruty-endpointy).
 
 ### App.Platform
 
-Если ваш адаптер предоставляет [контекст, специфичный для платформы] (#adaptery-podderzhivaemye-platformy-kontekst-speczifichnyj-dlya-platformy) через `event.platform`, вы можете указать его здесь.
+Если текущий адаптер предоставляет [контекст платформы](#adaptery-podderzhivaemye-platformy-kontekst-speczifichnyj-dlya-platformy) через `event.platform`, укажите его здесь.
 
 ### App.Session
 
-Интерфейс, который определяет `session`, как аргумент для функций [`load`](#zagruzka-dannyh), так и значение [session store](#moduli-$app-stores).
+Интерфейс, который определяет объект `session`, как аргумента для функций [`load`](#zagruzka-dannyh), так и значения [хранилища session](#moduli-$app-stores).
 
 ### App.Stuff
 
-Интерфейс, который определяет `stuff`, как вход или вывод в [`load`](#zagruzka-dannyh) или как значение свойства `stuff` [page store](#moduli-$app-stores).
+Интерфейс, который определяет объект `stuff` во входных и выходных данных функции [`load`](#zagruzka-dannyh), а так же в значении свойства `stuff` в [хранилище page](#moduli-$app-stores).
