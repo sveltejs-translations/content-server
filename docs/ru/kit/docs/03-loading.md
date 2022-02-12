@@ -91,7 +91,7 @@ interface Fallthrough {
 
 `url` - это экземпляр [`URL`](https://developer.mozilla.org/ru-RU/docs/Web/API/URL), содержащий такие свойства, как `origin`, `hostname`, `pathname` и `searchParams`.
 
-> В некоторых средах этот параметр получается из заголовков запроса (которые, возможно, [потребуется настроить](#konfiguracziya-headers)), во время рендеринга на стороне сервера
+> В некоторых средах этот параметр получается из заголовков запроса во время рендеринга на стороне сервера.Если вы используете [adapter-node](/docs#adaptery-podderzhivaemye-platformy-node-js), например, вам может потребоваться настроить адаптер, чтобы URL был правильным.
 
 #### params
 
