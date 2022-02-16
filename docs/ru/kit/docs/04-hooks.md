@@ -28,6 +28,7 @@ export interface RequestEvent {
 
 export interface ResolveOpts {
  	ssr?: boolean;
+	transformPage?: ({ html }: { html: string }) => string;
 }
 
 export interface Handle {
@@ -58,13 +59,15 @@ export async function handle({ event, resolve }) {
 
 В `resolve` можно передать второй необязательный параметр, который даёт больше контроля над тем, как будет отображаться ответ. Этот параметр является объектом, который может иметь следующие поля:
 
-- `ssr` (boolean, default `true`) - указывает, будет ли страница загружена и отрисована на сервере.
+- `ssr: boolean` (default `true`) - если `false`, отображает пустую страницу 'shell' вместо рендеринга на стороне сервера
+- `transformPage(opts: { html: string }): string` — применяет пользовательские преобразования к HTML
 
 ```js
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
  	const response = await resolve(event, {
- 		ssr: !event.url.pathname.startsWith('/admin')
+ 		ssr: !event.url.pathname.startsWith('/admin'),
+ 		transformPage: ({ html }) => html.replace('old', 'new')
  	});
 
  	return response;
