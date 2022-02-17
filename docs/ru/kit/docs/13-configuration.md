@@ -89,7 +89,7 @@ export default config;
 
 ### amp
 
-Включить режим [AMP](#amp).
+Включить режим [AMP](#seo-ruchnaya-nastrojka-amp).
 
 ### appDir
 
