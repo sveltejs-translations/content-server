@@ -1,10 +1,10 @@
 ---
-title: Обработка внешних файлов
+title: Файлы ресурсов
 ---
 
 ### Хеширование
 
-Чтобы включить хэши в имена внешних файлов и кэшировать их, вы можете настроить Vite обработать их, импортировав, как показано ниже:
+Чтобы включить хэши в имена файлов ресурсов и кэшировать их, вы можете настроить Vite для их обработки, импортировав, как показано ниже:
 
 ```html
 <script>
@@ -14,9 +14,9 @@ title: Обработка внешних файлов
 <img alt="The project logo" src={logo} />
 ```
 
-Если вы предпочитаете ссылаться на внешние файлы непосредственно в разметке, можно использовать препроцессор, такой как [svelte-preprocess-import-assets] (https://github.com/bluwy/svelte-preprocess-import-assets) или [svelte-image] (https://github.com/matyunya/svelte-image).
+Если вы предпочитаете ссылаться на файлы ресурсов непосредственно в разметке, можно использовать препроцессор, такой как [svelte-preprocess-import-assets] (https://github.com/bluwy/svelte-preprocess-import-assets) или [svelte-image] (https://github.com/matyunya/svelte-image).
 
-Для внешних файлов, включенных через `url()`, можно найти опцию [`experimental.useVitePreprocess`](https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/config.md#usevitepreprocess):
+Для файлов ресурсов, включенных через `url()`, можно найти опцию [`experimental.useVitePreprocess`](https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/config.md#usevitepreprocess):
 
 ```js
 // svelte.config.js
