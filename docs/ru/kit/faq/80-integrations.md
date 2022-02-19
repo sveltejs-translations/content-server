@@ -13,6 +13,7 @@ title: Как использовать X вместе со SvelteKit?
 `adapter-node` создает мидлвары, которые можно использовать с вашим собственным сервером для производственного режима. В dev вы можете добавить мидлвару в Vite с помощью плагина Vite. Например:
 
 ```js
+/** @type {import('vite').Plugin} */
 const myPlugin = {
   name: 'log-request-middleware',
   configureServer(server) {
@@ -44,6 +45,8 @@ Vite попытается обработать все импортированн
 Если вам нужен доступ к переменным `document` или `window` или код должен запускаться только на стороне клиента, вы можете обернуть его проверкой `browser`:
 
 ```js
+/// <reference types="@sveltejs/kit" />
+// ---cut---
 import { browser } from '$app/env';
 
 if (browser) {
@@ -53,6 +56,12 @@ if (browser) {
 Вы также можете запустить код в `onMount`, если хотите запустить его после того, как компонент был впервые отображен в DOM:
 
 ```js
+// @filename: ambient.d.ts
+// @lib: ES2015
+declare module 'some-browser-only-library';
+
+// @filename: index.js
+// ---cut---
 import { onMount } from 'svelte';
 
 onMount(async () => {
@@ -64,6 +73,12 @@ onMount(async () => {
 Если библиотека, которую вы хотите использовать, свободна от побочных эффектов, вы также можете статически импортировать ее, и она будет тришейкнута в серверной сборке, где `onMount` будет автоматически заменена на no-op:
 
 ```js
+// @filename: ambient.d.ts
+// @lib: ES2015
+declare module 'some-browser-only-library';
+
+// @filename: index.js
+// ---cut---
 import { onMount } from 'svelte';
 import { method } from 'some-browser-only-library';
 
@@ -75,6 +90,12 @@ onMount(() => {
 В противном случае, если библиотека имеет побочные эффекты и вы все равно предпочитаете использовать статический импорт, ознакомьтесь с [vite-plugin-iso-import](https://github.com/bluwy/vite-plugin-iso-import) для поддержки `?client` суффикс импорта. Импорт будет удален в сборках SSR. Однако обратите внимание, что вы потеряете возможность использовать VS Code Intellisense, если используете этот метод.
 
 ```js
+// @filename: ambient.d.ts
+// @lib: ES2015
+declare module 'some-browser-only-library?client';
+
+// @filename: index.js
+// ---cut---
 import { onMount } from 'svelte';
 import { method } from 'some-browser-only-library?client';
 

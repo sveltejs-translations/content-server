@@ -8,13 +8,13 @@ title: Конфигурация
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// параметры для svelte.compile (https://svelte.dev/docs#svelte_compile)
-	compilerOptions: null,
+	compilerOptions: {},
 
 	// массив расширений, которые будут считаться компонентами Svelte
 	extensions: ['.svelte'],
 
 	kit: {
-		adapter: null,
+		adapter: undefined,
 		amp: false,
 		appDir: '_app',
 		browser: {
@@ -111,12 +111,20 @@ export default config;
 Настройка [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy). CSP помогает защитить пользователей от XSS-атак, ограничивая места, из которых могут загружаться ресурсы. Например, такая конфигурация...
 
 ```js
- {
- 	directives: {
- 		'script-src': ['self']
- 	}
- }
- ```
+/// file: svelte.config.js
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	kit: {
+		csp: {
+			directives: {
+				'script-src': ['self']
+			}
+		}
+	}
+}
+
+export default config;
+```
 
 ...позволит предотвратить загрузку скриптов с внешних сайтов. Для любых инлайновых стилей и генерируемых скриптов SvelteKit автоматически дополнит указанные директивы нужным хешем(в зависимости от `mode`).
 
@@ -173,21 +181,29 @@ Permissions-Policy: Interest-cohort = ()
  Для удобного сопоставления путей в функциях значений `exports` и `files`, можно использовать различные внешние библиотеки:
 
  ```js
- // svelte.config.js
- import mm from 'micromatch';
+// @filename: ambient.d.ts
+declare module 'micromatch';
 
- export default {
- 	kit: {
- 		package: {
- 			exports: (filepath) => {
- 				if (filepath.endsWith('.d.ts')) return false;
- 				return mm.isMatch(filepath, ['!**/_*', '!**/internal/**'])
- 			},
- 			files: mm.matcher('!**/build.*')
- 		}
- 	}
- };
- ```
+/// file: svelte.config.js
+// @filename: index.js
+// ---cut---
+import mm from 'micromatch';
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	kit: {
+		package: {
+			exports: (filepath) => {
+				if (filepath.endsWith('.d.ts')) return false;
+				return mm.isMatch(filepath, ['!**/_*', '!**/internal/**'])
+			},
+			files: mm.matcher('!**/build.*')
+		}
+	}
+};
+
+export default config;
+```
 
 ### paths
 
@@ -211,25 +227,27 @@ Permissions-Policy: Interest-cohort = ()
    - `'continue'` — позволяет продолжить сборку, несмотря на ошибки маршрутизации
    - `function` — пользовательский обработчик ошибок, в котором можно вывести сообщение, вызвать исключение или прервать сборку, а также совершить любые другие действия, основываясь на полученных аргументах
 
-     ```ts
+     ```js
 	 import static from '@sveltejs/adapter-static';
 
      /** @type {import('@sveltejs/kit').PrerenderErrorHandler} */
-
      const handleError = ({ status, path, referrer, referenceType }) => {
      	if (path.startsWith('/blog')) throw new Error('Missing a blog page!');
      	console.warn(`${status} ${path}${referrer ? ` (${referenceType} from ${referrer})` : ''}`);
      };
 
-     export default {
+	/** @type {import('@sveltejs/kit').Config} */
+	const config = {
      	kit: {
      		adapter: static(),
      		prerender: {
      			onError: handleError
      		}
      	}
-     };
-     ```
+	};
+
+	export default config;
+	```
 
 ### routes
 

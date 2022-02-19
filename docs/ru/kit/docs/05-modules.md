@@ -8,6 +8,8 @@ title: Модули
 ### $app/env
 
 ```js
+/// <reference types="@sveltejs/kit" />
+// ---cut---
 import { amp, browser, dev, mode, prerendering } from '$app/env';
 ```
 
@@ -21,14 +23,16 @@ import { amp, browser, dev, mode, prerendering } from '$app/env';
 ### $app/navigation
 
 ```js
+/// <reference types="@sveltejs/kit" />
+// ---cut---
 import {
+	afterNavigate,
+ 	beforeNavigate,
  	disableScrollHandling,
  	goto,
  	invalidate,
  	prefetch,
- 	prefetchRoutes,
- 	beforeNavigate,
- 	afterNavigate
+ 	prefetchRoutes
  } from '$app/navigation';
 ```
 
@@ -48,6 +52,8 @@ import {
 ### $app/paths
 
 ```js
+/// <reference types="@sveltejs/kit" />
+// ---cut---
 import { base, assets } from '$app/paths';
 ```
 
@@ -60,6 +66,8 @@ import { base, assets } from '$app/paths';
 ### $app/stores
 
 ```js
+/// <reference types="@sveltejs/kit" />
+// ---cut---
 import { getStores, navigating, page, session, updated } from '$app/stores';
 ```
 Эти хранилища _зависят от контекста_, так как они добавляются в [контекст](https://ru.svelte.dev/tutorial/context-api) корневого компонента приложения. Это значит, что хранилища `session` и `page` будут уникальны для каждого запроса на сервер и не будут предоставлять одну и ту же информацию в нескольких запросах сразу. Поэтому можно безопасно хранить в `session` данные конкретного пользователя.
@@ -86,6 +94,8 @@ import { getStores, navigating, page, session, updated } from '$app/stores';
 Этот модуль доступен только в [сервис-воркерах](#servis-vorkery).
 
 ```js
+/// <reference types="@sveltejs/kit" />
+// ---cut---
 import { build, files, timestamp } from '$service-worker';
 ```
 
@@ -99,14 +109,20 @@ import { build, files, timestamp } from '$service-worker';
 Этот модуль содержит хелпер-функцию `sequence` для создания последовательности из нескольких вызовов в `handle`.
 
 ```js
+/// file: src/hooks.js
+/// <reference types="@sveltejs/kit" />
+// ---cut---
 import { sequence } from '@sveltejs/kit/hooks';
 
+/** @type {import('@sveltejs/kit').Handle} */
 async function first({ event, resolve }) {
   console.log('первая пред-обработка');
  	const result = await resolve(event);
  	console.log('первая пост-обработка');
  	return result;
 }
+
+/** @type {import('@sveltejs/kit').Handle} */
 async function second({ event, resolve }) {
   console.log('вторая пред-обработка');
  	const result = await resolve(event);

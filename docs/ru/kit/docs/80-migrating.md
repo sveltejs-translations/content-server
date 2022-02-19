@@ -99,6 +99,11 @@ SvelteKit является преемником Sapper и разделяет м�
 В Sapper вы получите ссылки на предоставленные магазины следующим образом:
 
 ```js
+// @filename: ambient.d.ts
+declare module '@sapper/app';
+
+// @filename: index.js
+// ---cut---
 import { stores } from '@sapper/app';
 const { preloading, page, session } = stores();
 ```
@@ -139,6 +144,12 @@ SvelteKit разработан так, чтобы быть независимы�
 Sapper по умолчанию включает `html-minifier`. SvelteKit не включает это, но его можно добавить в качестве [хука](/docs#huki-handle):
 
 ```js
+// @filename: ambient.d.ts
+/// <reference types="@sveltejs/kit" />
+declare module 'html-minifier';
+
+// @filename: index.js
+// ---cut---
 import { minify } from 'html-minifier';
 import { prerendering } from '$app/env';
 
@@ -161,6 +172,7 @@ const minification_options = {
 	sortClassName: true
 };
 
+/** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
 	const response = await resolve(event);
 

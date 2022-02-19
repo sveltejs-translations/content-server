@@ -10,40 +10,47 @@ title: Хуки
 
 Эта функция запускается каждый раз, когда SvelteKit получает запрос и формирует ответ. Это может происходить во время работы приложения или во время [предварительной отрисовки](#parametry-straniczy-prerender). Она получает объект `event`, представляющий запрос, и функцию `resolve`, которая вызывает маршрутизатор SvelteKit и генерирует ответ (отображает страницу или вызывает эндпоинт). Это позволяет изменять заголовки или тело ответов или полностью обойти SvelteKit (например, для программной реализации эндпоинтов).
 
-> Запросы статический ресурсов, включая предварительно отрисованные страницы, _не_ обрабатываются SvelteKit.
+```js
+/// file: src/hooks.js
+/** @type {import('@sveltejs/kit').Handle} */
+export async function handle({ event, resolve }) {
+	if (event.request.url.startsWith('/custom')) {
+		return new Response('custom response');
+	}
 
-Если эта функция не задана будет использоваться её вариант по умолчанию `({ event, resolve }) => resolve(event)`.
-
-```ts
-// Декларации типов для `handle` (декларации с ключевым 
-// словом `export` могут быть импортированы из `@sveltejs/kit`)
-
-export interface RequestEvent {
- 	request: Request;
- 	url: URL;
- 	params: Record<string, string>;
- 	locals: App.Locals;
- 	platform: App.Platform;
- }
-
-export interface ResolveOpts {
- 	ssr?: boolean;
-	transformPage?: ({ html }: { html: string }) => string;
+	const response = await resolve(event);
+	return response;
 }
-
-export interface Handle {
- 	(input: {
- 		event: RequestEvent;
- 		resolve(event: RequestEvent, opts?: ResolveOpts): MaybePromise<Response>;
- 	}): MaybePromise<Response>;
- }ё
 ```
 
-> Для получения информации об `App.Locals` и `App.Platform` смотрите раздел [TypeScript](#typescript).
+> Запросы статический ресурсов, включая предварительно отрисованные страницы, _не_ обрабатываются SvelteKit.
 
-Например, чтобы передать какие-либо дополнительные данные, которые нужно иметь в эндпоинтах, добавьте объект `event.locals`, как показано ниже:
+Если не реализовано, по умолчанию используется `({ event, resolve }) => resolve(event)`. Чтобы добавить пользовательские данные к запросу, который передается конечным точкам, заполните объект `event.locals`, как показано ниже.
 
 ```js
+/// file: src/hooks.js
+// @filename: ambient.d.ts
+type User = {
+	name: string;
+}
+
+declare namespace App {
+ 	interface Locals {
+ 		user: User;
+ 	}
+ 	interface Platform {}
+ 	interface Session {}
+ 	interface Stuff {}
+}
+
+const getUserInformation: (cookie: string | null) => Promise<User>;
+
+// declare global {
+// 	const getUserInformation: (cookie: string) => Promise<User>;
+// }
+
+// @filename: index.js
+ // ---cut---
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
  	event.locals.user = await getUserInformation(event.request.headers.get('cookie'));
@@ -63,6 +70,7 @@ export async function handle({ event, resolve }) {
 - `transformPage(opts: { html: string }): string` — применяет пользовательские преобразования к HTML
 
 ```js
+/// file: src/hooks.js
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
  	const response = await resolve(event, {
@@ -84,13 +92,13 @@ export async function handle({ event, resolve }) {
 
 Если данный хук не задан, SvelteKit отобразит ошибку с форматированием по умолчанию.
 
-```ts
-export interface HandleError {
- 	(input: { error: Error & { frame?: string }; event: RequestEvent }): void;
-}
-```
-
 ```js
+/// file: src/hooks.js
+// @filename: ambient.d.ts
+const Sentry: any;
+
+// @filename: index.js
+// ---cut---
 /** @type {import('@sveltejs/kit').HandleError} */
 export async function handleError({ error, event }) {
 	// пример интеграции с https://sentry.io/
@@ -107,13 +115,31 @@ export async function handleError({ error, event }) {
 
 Если функция не задана, объект сессии будет равен `{}`.
 
-```ts
-export interface GetSession {
- 	(event: RequestEvent): MaybePromise<App.Session>;
- }
-```
-
 ```js
+/// file: src/hooks.js
+// @filename: ambient.d.ts
+declare namespace App {
+	interface Locals {
+		user: {
+			name: string;
+			email: string;
+			avatar: string;
+			token: string;
+		}
+	}
+	interface Session {
+		user?: {
+			name: string;
+			email: string;
+			avatar: string;
+		}
+	}
+}
+
+type MaybePromise<T> = T | Promise<T>;
+
+// @filename: index.js
+// ---cut---
 /** @type {import('@sveltejs/kit').GetSession} */
 export function getSession(event) {
  	return event.locals.user
@@ -139,12 +165,6 @@ export function getSession(event) {
 Эта функция позволяет изменять (или заменять) запрос `fetch` для **внешнего ресурса** внутри функции `load`, которая выполняется на сервере (или во время предварительной отрисовки).
 
 Например, когда есть страница с функцией `load`, которая на клиенте делает запрос на публичный URL-адрес(например `https://api.yourapp.com`) какого-либо внутреннего сервиса, то во время отрисовки на сервере имеет смысл выполнить запрос к сервису локально, минуя прокси-серверы и балансировщики.
-
-```ts
-export interface ExternalFetch {
-	(req: Request): Promise<Response>;
-}
-```
 
 ```js
 /** @type {import('@sveltejs/kit').ExternalFetch} */

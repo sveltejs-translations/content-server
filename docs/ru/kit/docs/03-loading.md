@@ -7,6 +7,18 @@ title: Загрузка данных
 Если данные для страницы поступают от её эндпоинта, функция `load` не понадобится. Она полезна, когда требуется большая гибкость, например, загрузка данных из внешнего API.
 
 ```ts
+// @filename: ambient.d.ts
+declare namespace App {
+	interface Locals {}
+	interface Platform {}
+	interface Session {}
+	interface Stuff {}
+}
+
+type Either<T, U> = Only<T, U> | Only<U, T>;
+
+// @filename: index.ts
+// ---cut---
 // Декларация типа для `load` (декларации с ключевым 
 // словом `export` могут быть импортированы из `@sveltejs/kit`)
 
@@ -14,7 +26,7 @@ export interface Load<Params = Record<string, string>, Props = Record<string, an
  	(input: LoadInput<Params>): MaybePromise<Either<Fallthrough, LoadOutput<Props>>>;
 }
 
-export interface LoadInput<Params extends Record<string, string> = Record<string, string>> {
+export interface LoadInput<Params = Record<string, string>> {
  	url: URL;
  	params: Params;
 	props: Record<string, any>;
@@ -23,7 +35,7 @@ export interface LoadInput<Params extends Record<string, string> = Record<string
  	stuff: Partial<App.Stuff>;
  }
 
-export interface LoadOutput<Props extends Record<string, any> = Record<string, any>> {
+export interface LoadOutput<Props = Record<string, any>> {
  	status?: number;
  	error?: string | Error;
  	redirect?: string;
@@ -44,6 +56,7 @@ interface Fallthrough {
 Страница, которая загружает данные с внешнего API, может выглядеть так:
 
 ```html
+/// file: src/routes/blog/[slug].svelte
 <script context="module">
 	/** @type {import('@sveltejs/kit').Load} */
 	export async function load({ params, fetch, session, stuff }) {
@@ -99,7 +112,7 @@ interface Fallthrough {
 
 Например, для имени файла маршрута  `src/routes/a/[b]/[...c]` и значении `url.pathname` равным `/a/x/y/z`, объект `params` будет выглядеть следующим образом:
 
-```js
+```json
 {
 	"b": "x",
 	"c": "y/z"

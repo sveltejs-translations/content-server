@@ -24,7 +24,7 @@ SvelteKit предлагает ряд официально поддержива�
 Чтобы создать простой Node-сервер, установите пакет [`@sveltejs/adapter-node@next`](https://github.com/sveltejs/kit/tree/master/packages/adapter-node) и обновите `svelte.config.js`:
 
 ```diff
-// svelte.config.js
+/// file: svelte.config.js
 -import adapter from '@sveltejs/adapter-auto';
 +import adapter from '@sveltejs/adapter-node';
 ```
@@ -32,7 +32,7 @@ SvelteKit предлагает ряд официально поддержива�
 После этого [svelte-kit build](#svelte-kit-cli-svelte-kit-build) сгенерирует автономное приложение Node в директории `build`. Вы можете передать адаптерам параметры, например указать директорию для полученного приложения:
 
 ```diff
-// svelte.config.js
+/// file: svelte.config.js
 import adapter from '@sveltejs/adapter-node';
 
 export default {
@@ -48,10 +48,10 @@ export default {
 Большинство адаптеров будут генерировать статический HTML для любых страниц, которые возможно [предварительно отрисовать](#parametry-straniczy-prerender). В некоторых случаях, когда можно предварительно отрисовать всё приложение, используйте [`@sveltejs/adapter-static@next`](https://github.com/sveltejs/kit/tree/master/packages/adapter-static) для генерации статического HTML кода для _всех_ страниц. Полностью статический сайт может быть размещен на самых разных платформах и хостингах, включая [GitHub Pages](https://pages.github.com/).
 
 ```diff
- // svelte.config.js
- -import adapter from '@sveltejs/adapter-auto';
- +import adapter from '@sveltejs/adapter-static';
- ```
+/// file: svelte.config.js
+-import adapter from '@sveltejs/adapter-auto';
++import adapter from '@sveltejs/adapter-static';
+```
 
 Также `adapter-static` можно использовать для создания одностраничных приложений (SPA), указав [корневую страницу](https://github.com/sveltejs/kit/tree/master/packages/adapter-static#spa-mode).
 
@@ -64,6 +64,7 @@ export default {
 Для других платформ существуют дополнительные [адаптеры от сообщества](https://sveltesociety.dev/components#adapters). После установки соответствующего адаптера с помощью менеджера пакетов обновите `svelte.config.js`:
 
 ```diff
+/// file: svelte.config.js
 -import adapter from '@sveltejs/adapter-auto';
 +import adapter from 'svelte-adapter-[x]';
 ```
@@ -76,15 +77,22 @@ export default {
 Пакеты адаптеров должны реализовывать следующий API, который создает `Adapter`:
 
 ```js
+// @filename: ambient.d.ts
+const AdapterSpecificOptions = any;
+
+// @filename: index.js
+// ---cut---
 /** @param {AdapterSpecificOptions} options */
 export default function (options) {
 /** @type {import('@sveltejs/kit').Adapter} */
-    return {
+    const adapter = {
         name: 'adapter-package-name',
         async adapt(builder) {
           // имплементация адаптера
         }
     };
+
+    return adapter;
 }
 ```
 

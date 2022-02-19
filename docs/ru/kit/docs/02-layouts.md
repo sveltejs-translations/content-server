@@ -15,7 +15,7 @@ title: Макеты
 Мы можем добавить любую разметку, стили и поведение, которые мы хотим. Единственное требование — компонент должен иметь `<slot>` для содержимого страницы.  Например, давайте добавим панель навигации:
 
 ```html
-<!-- src/routes/__layout.svelte -->
+/// file: src/routes/__layout.svelte
 <nav>
 	<a href="/">Главная</a>
 	<a href="/about">О сайте</a>
@@ -28,17 +28,17 @@ title: Макеты
 Если мы создадим страницы для `/`, `/about` и `/settings`...
 
 ```html
-<!-- src/routes/index.svelte -->
+/// file: src/routes/index.svelte
 <h1>Главная</h1>
 ```
 
 ```html
-<!-- src/routes/about.svelte -->
+/// file: src/routes/about.svelte
 <h1>О сайте</h1>
 ```
 
 ```html
-<!-- src/routes/settings.svelte -->
+/// file: src/routes/settings.svelte
 <h1>Настройки</h1>
 ```
 
@@ -51,7 +51,7 @@ title: Макеты
 Мы можем создать макет, который применяется только к страницам, расположенным ниже `/settings` (при этом останется и корневой макет с навигацией):
 
 ```html
-<!-- src/routes/settings/__layout.svelte -->
+/// file: src/routes/settings/__layout.svelte
 <h1>Настройки</h1>
 
 <div class="submenu">
@@ -76,17 +76,6 @@ title: Макеты
 Например, если не удалось загрузить `src/routes/settings/notifications/index.svelte`, SvelteKit отрисует `src/routes/settings/notifications/__error.svelte` в том же макете, если он существует. В противном случае он отрисует `src/routes/settings/__error.svelte` в родительском макете или `src/routes/__error.svelte` в корневом макете.
 
 > В SvelteKit есть страница ошибок по умолчанию, если он не найдет файла `src/routes/__error.svelte`, но рекомендуется сделать свою.
-
-```ts
-// декларация типа
-// * см. также тип для `LoadOutput` в разделе Загрузка данных
-
-export interface ErrorLoadInput<Params extends Record<string, string> = Record<string, string>>
- 	extends LoadInput<Params> {
- 	status?: number;
- 	error?: Error;
- }
-```
 
 Если в компоненте`__error.svelte` есть функция [`load`](#zagruzka-dannyh), она будет вызываться со свойствами `error` и `status`:
 

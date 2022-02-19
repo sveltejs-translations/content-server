@@ -19,10 +19,20 @@ title: Создание пакетов
 Например, если имеется компонент `src/lib/Foo.svelte` и модуль `src/lib/index.js`, который реэкспортирует его, то пользователь вашего пакета сможет импортировать компонент любым из двух способов:
 
 ```js
+// @filename: ambient.d.ts
+declare module 'your-library';
+
+// @filename: index.js
+// ---cut---
 import { Foo } from 'your-library';
 ```
 
 ```js
+// @filename: ambient.d.ts
+declare module 'your-library/Foo.svelte';
+
+// @filename: index.js
+// ---cut---
 import Foo from 'your-library/Foo.svelte';
 ```
 

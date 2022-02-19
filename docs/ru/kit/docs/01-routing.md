@@ -20,7 +20,7 @@ title: Маршруты
 
 
 ```html
-<!-- src/routes/index.svelte -->
+/// file: src/routes/index.svelte
 <svelte:head>
 	<title>Добро пожаловать!</title>
 </svelte:head>
@@ -31,7 +31,7 @@ title: Маршруты
 Файл с именем `src/routes/about.svelte` или `src/routes/about/index.svelte` будет соответствовать маршруту `/about`:
 
 ```html
-<!-- src/routes/about.svelte -->
+/// file: src/routes/about.svelte
 <svelte:head>
 	<title>О сайте</title>
 </svelte:head>
@@ -49,42 +49,18 @@ title: Маршруты
 
 Эндпоинты — это модули, написанные в файлах `.js` (или `.ts`), которые экспортируют функции, соответствующие HTTP методам. Их назначение заключается в предоставлении страницам возможности читать и записывать данные, которые доступны только на сервере (например, в базе данных или в файловой системе).
 
-```ts
-// Декларации типов для эндпоинтов (декларации с ключевым 
-// словом `export` могут быть импортированы из `@sveltejs/kit`)
-
-export interface RequestHandler<Output = Record<string, any>> {
-	(event: RequestEvent): MaybePromise<
-		Either<Output extends Response ? Response : EndpointOutput<Output>, Fallthrough>
-	>;
-}
-
-export interface RequestEvent {
- 	request: Request;
- 	url: URL;
- 	params: Record<string, string>;
- 	locals: App.Locals;
-	platform: App.Platform;
-}
-
-export interface EndpointOutput<Output = Record<string, any>> {
- 	status?: number;
- 	headers?: Headers | Partial<ResponseHeaders>;
- 	body?: Record<string, any>;
- }
-
-type MaybePromise<T> = T | Promise<T>;
-
-interface Fallthrough {
- 	fallthrough: true;
-}
-```
-
-> Для получения информации об `App.Locals` и `App.Platform` смотрите раздел [TypeScript](#typescript).
-
-Например, страница `src/routes/items/[id].svelte`, может получать данные из `src/routes/items/[id].js`:
+Если эндпоинт имеет то же имя файла, что и страница (за исключением расширения), страница получит свои реквизиты из эндпоинта. Таким образом, такая страница, как `src/routes/items/[id].svelte`, может получить свой реквизит из этого файла:
 
 ```js
+/// file: src/routes/items/[id].js
+// @filename: ambient.d.ts
+type Item = {};
+declare module '$lib/database' {
+	export const get: (id: string) => Promise<Item>;
+}
+
+// @filename: index.js
+// ---cut---
 import db from '$lib/database';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
@@ -117,7 +93,8 @@ export async function get({ params }) {
 
 Возвращаемый объект `body` соответствует свойствам страницы:
 
-```html
+```svelte
+/// file: src/routes/items/[id].svelte
 <script>
 	// свойство будет задано ответом от эндпоинта
 	export let item;
@@ -131,6 +108,7 @@ export async function get({ params }) {
 Эндпоинты могут обрабатывать любой HTTP-метод, не только GET, путём экспорта соответствующей функции:
 
 ```js
+// @noErrors
 export function post(event) {...}
 export function put(event) {...}
 export function patch(event) {...}
@@ -140,15 +118,31 @@ export function del(event) {...} // `delete` - зарезервированно�
 Как и `get`, все эти функции могут возвращать объект `body`, который будет передан странице в качестве значений её свойств. Ответы со статусом 4xx/5xx на GET-запросы приведут к отображению страницы с ошибкой. Аналогичные ответы на запросы других HTTP-методов этого не сделают, что позволяет, например, передать и отрисовать ошибки валидации формы.
 
 ```js
- // src/routes/items.js
+/// file: src/routes/items.js
+// @filename: ambient.d.ts
+type Item = {
+	id: string;
+};
+type ValidationError = {};
+
+declare module '$lib/database' {
+	export const list: () => Promise<Item[]>;
+	export const create: (request: Request) => Promise<[Record<string, ValidationError>, Item]>;
+}
+
+// @filename: index.js
+// ---cut---
 import * as db from '$lib/database'; 
 
+/** @type {import('@sveltejs/kit').RequestHandler} */
 export async function get() {
  	const items = await db.list();
 	return {
 		body: { items }
 	};
 }
+
+/** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post({ request }) {
 	const [errors, item] = await db.create(request);
 
@@ -170,7 +164,7 @@ export async function post({ request }) {
 ```
 
 ```svelte
-<!-- src/routes/items.svelte -->
+/// file: src/routes/items.svelte
 <script>
 	// У страницы всегда есть доступ к свойствам из `get`...
 	export let items;
@@ -204,8 +198,21 @@ export async function post({ request }) {
 Объект `request` является экземпляром стандартного класса [Request](https://developer.mozilla.org/ru-RU/docs/Web/API/Request), поэтому получить данные из тела запроса не составит труда:
 
 ```js
+// @filename: ambient.d.ts
+declare global {
+	const create: (data: any) => any;
+}
+
+export {};
+
+// @filename: index.js
+// ---cut---
+/** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post({ request }) {
 	const data = await request.formData(); // или .json(), или .text()
+	
+	await create(data);
+ 	return { status: 201 };
 }
 ```
 
@@ -214,11 +221,20 @@ export async function post({ request }) {
 Эндпоинты могут устанавливать Cookie, возвращая объект заголовков с `set-cookie`. Чтобы установить несколько Cookie одновременно, верните массив:
 
 ```js
-return {
-	headers: {
-		'set-cookie': [cookie1, cookie2]
-	}
-};
+// @filename: ambient.d.ts
+const cookie1: string;
+const cookie2: string;
+
+// @filename: index.js
+// ---cut---
+/** @type {import('@sveltejs/kit').RequestHandler} */
+export function get() {
+	return {
+		headers: {
+			'set-cookie': [cookie1, cookie2]
+		}
+	};
+}
 ```
 
 #### Переназначение HTTP методов
@@ -226,14 +242,17 @@ return {
 HTML-формы поддерживают только методы `GET` и `POST`. Вы можете указать другие допустимые методы, например `PUT` и `DELETE`, указав их в файле [конфигурации](#konfiguracziya-methodoverride), а затем добавлять параметр `_method=МЕТОД` (укажите нужный метод) в аттрибуте формы `action`:
 
 ```js
-// svelte.config.js
-export default {
+/// file: svelte.config.js
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
 	kit: {
 		methodOverride: {
 			allowed: ['PUT', 'PATCH', 'DELETE']
 		}
 	}
 };
+
+export default config;
 ```
 
 ```html
@@ -268,6 +287,7 @@ export default {
 И в данном случае запрос для маршрута `/sveltejs/kit/tree/master/documentation/docs/01-routing.md` будет преобразован в следующие параметры, доступные на этой странице:
 
 ```js
+// @noErrors
 {
 	org: 'sveltejs',
 	repo: 'kit',
@@ -315,7 +335,7 @@ src/routes/[...catchall].svelte
 Маршруты с более высоким приоритетом могут попасть на маршруты с более низким приоритетом, вернув `{ fallthrough: true }`, либо из `load` (для страниц), либо из обработчика запросов (для эндпоинтов):
 
 ```svelte
-<!-- src/routes/foo-[bar].svelte -->
+/// file: src/routes/foo-[bar].svelte
 <script context="module">
 	export function load({ params }) {
 		if (params.bar === 'def') {
@@ -328,7 +348,10 @@ src/routes/[...catchall].svelte
 ```
 
 ```js
-// src/routes/[a].js
+/// file: src/routes/[a].js
+// @errors: 2366
+/** @type {import('@sveltejs/kit').RequestHandler} */
+// ---cut---
 export function get({ params }) {
 	if (params.a === 'foo-def') {
 		return { fallthrough: true };

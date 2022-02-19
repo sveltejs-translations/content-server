@@ -34,14 +34,23 @@ SvelteKit перенаправляет пути с косой чертой в к
 
 
 ```js
-// svelte.config.js
+/// file: svelte.config.js
+// @filename: ambient.d.ts
+declare module 'svelte-preprocess';
+
+// @filename: index.js
+// ---cut---
 import preprocess from 'svelte-preprocess';
-export default {
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
 	preprocess: preprocess({
 		preserve: ['ld+json'],
 		// ...
 	})
 };
+
+export default config;
 ```
 
 #### Карта сайта
@@ -49,7 +58,7 @@ export default {
 [Карта сайта](https://developers.google.com/search/docs/advanced/sitemaps/build-sitemap) помогает поисковым системам определять приоритетность страниц вашего сайта, особенно если у вас большой объем контента. Вы можете создать карту сайта динамически, используя эндпоинт:
 
 ```js
-// src/routes/sitemap.xml.js
+/// file: src/routes/sitemap.xml.js
 export async function get() {
 	return {
 		headers: {
