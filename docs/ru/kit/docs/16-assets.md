@@ -16,7 +16,7 @@ title: Файлы ресурсов
 
 Если вы предпочитаете ссылаться на файлы ресурсов непосредственно в разметке, можно использовать препроцессор, такой как [svelte-preprocess-import-assets] (https://github.com/bluwy/svelte-preprocess-import-assets) или [svelte-image] (https://github.com/matyunya/svelte-image).
 
-Для файлов ресурсов, включенных через `url()`, можно найти опцию [`experimental.useVitePreprocess`](https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/config.md#usevitepreprocess):
+Для файлов ресурсов, включенных через CSS функцию `url()`, можно найти опцию [`experimental.useVitePreprocess`](https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/config.md#usevitepreprocess):
 
 ```js
 // svelte.config.js

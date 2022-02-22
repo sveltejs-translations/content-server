@@ -4,63 +4,15 @@ title: Загрузка данных
 
 Компонент, определяющий страницу или макет, может экспортировать функцию `load`, которая запускается до создания компонента. Эта функция выполняется как во время рендеринга на стороне сервера, так и в клиенте и позволяет извлекать данные и манипулировать ими до рендеринга страницы, что позволяет обойтись без индикаторов загрузки на странице.
 
-Если данные для страницы поступают от её эндпоинта, функция `load` не понадобится. Она полезна, когда требуется большая гибкость, например, загрузка данных из внешнего API.
-
-```ts
-// @filename: ambient.d.ts
-declare namespace App {
-	interface Locals {}
-	interface Platform {}
-	interface Session {}
-	interface Stuff {}
-}
-
-type Either<T, U> = Only<T, U> | Only<U, T>;
-
-// @filename: index.ts
-// ---cut---
-// Декларация типа для `load` (декларации с ключевым 
-// словом `export` могут быть импортированы из `@sveltejs/kit`)
-
-export interface Load<Params = Record<string, string>, Props = Record<string, any>> {
- 	(input: LoadInput<Params>): MaybePromise<Either<Fallthrough, LoadOutput<Props>>>;
-}
-
-export interface LoadInput<Params = Record<string, string>> {
- 	url: URL;
- 	params: Params;
-	props: Record<string, any>;
- 	fetch(info: RequestInfo, init?: RequestInit): Promise<Response>;
- 	session: App.Session;
- 	stuff: Partial<App.Stuff>;
- }
-
-export interface LoadOutput<Props = Record<string, any>> {
- 	status?: number;
- 	error?: string | Error;
- 	redirect?: string;
- 	props?: Props;
- 	stuff?: Partial<App.Stuff>;
- 	maxage?: number;
- }
-
-type MaybePromise<T> = T | Promise<T>;
-
-interface Fallthrough {
-	fallthrough: true;
-}
-```
-
-> Для получения информации об `App.Locals` и `App.Platform` смотрите раздел [TypeScript](#typescript).
-
-Страница, которая загружает данные с внешнего API, может выглядеть так:
+Функция `load` может не понадобиться, если данные для страницы поставляются с её эндпоинта. Это полезно, когда нужно больше гибкости, например, для загрузки данных с внешнего API, которая может выглядеть так:
 
 ```html
 /// file: src/routes/blog/[slug].svelte
 <script context="module">
 	/** @type {import('@sveltejs/kit').Load} */
 	export async function load({ params, fetch, session, stuff }) {
-		const response = await fetch(`https://cms.example.com/article/${params.slug}.json`);
+		const url = `https://cms.example.com/article/${params.slug}.json`;
+ 		const response = await fetch(url);
 
 		return {
 			status: response.status,
