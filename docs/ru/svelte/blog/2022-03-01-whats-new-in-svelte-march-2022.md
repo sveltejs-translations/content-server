@@ -5,14 +5,14 @@ author: Daniel Sandoval
 authorURL: https://desandoval.net
 ---
 
-Только что объявлено: [Svelte Summit Spring](https://www.sveltesummit.com/) состоится 30 апреля 2022 года. 5-я виртуальная конференция Svelte [ищем докладчиков](https://www.sveltesummit.com/#speakers) и [спонсоров](https://www.sveltesummit.com/sponsors)... так что пришло время стереть пыль с этих предложений!
+Только что объявлено: [Svelte Summit Spring](https://www.sveltesummit.com/) состоится 30 апреля 2022 года. 5-я виртуальная конференция Svelte [ищет докладчиков](https://www.sveltesummit.com/#speakers) и [спонсоров](https://www.sveltesummit.com/sponsors)... пришло время стереть пыль с этих предложений!
 
 Кроме того, в этом месяце в SvelteKit были добавлены некоторые давно запрошенные функции... включая эндпоинты страниц! Это изменение в работе функции `load` облегчает получение данных, необходимых для основных страниц, перенаправление из ответов POST и обработку 404 и других ошибок.
 
 Подробнее об этой и других новых функциях и исправлениях ниже!
 
 ## Что нового в SvelteKit
-- В Документах теперь есть поиск и они стали многостраничными с определениями типов и примерами кода с подсказками - Проверьте их по адресу [kit.svelte.dev/docs](https://kit.svelte.dev/docs/)
+- В Документах теперь есть поиск и они стали многостраничными, с определениями типов и примерами кода с подсказками - Проверьте их по адресу [kit.svelte.dev/docs](https://kit.svelte.dev/docs/)
 - Эндпоинты страницы значительно уменьшают шаблон, необходимый при загрузке страницы ([Issue](https://github.com/sveltejs/kit/issues/3532), [PR](https://github.com/sveltejs/kit/pull/3679), [Docs](https://kit.svelte.dev/docs/routing#endpoints-page-endpoints))
 - Поддержка управления версиями и обнаружения обновлений приложений позволяет определить, что делать, если маршрут не загружается после обновления приложения ([Issue](https://github.com/sveltejs/kit/issues/87), [PR](https://github.com/sveltejs/kit/pull/3412), [Docs](https://kit.svelte.dev/docs/configuration#version))
 - Новая опция в `npm init svelte@next` теперь автоматически настроит Playwright для тестирования ([PR](https://github.com/sveltejs/kit/pull/4056))
@@ -81,7 +81,7 @@ _Смотреть_
 - [walk-and-graph-svelte-components](https://github.com/j2l/walk-and-graph-svelte-components) - сценарий узла CLI для обхода файлов svelte и js, чтобы нарисовать красивый JPG ваших зависимостей, иначе "импорт"
 - [Felte](https://www.npmjs.com/package/felte) - простая в использовании библиотека форм для Svelte
 - [svelte-use-tooltip](https://github.com/untemps/svelte-use-tooltip) - Svelte-экшен для отображения подсказки
-[Persistent-svelte-store](https://github.com/omer-g/persistent-svelte-store) - универсальное постоянно записываемое хранилище, построенное с нуля в TypeScript в соответствии с контрактом на магазин Svelte
+- [Persistent-svelte-store](https://github.com/omer-g/persistent-svelte-store) - универсальное постоянно записываемое хранилище, построенное с нуля в TypeScript в соответствии с контрактом хранилищ Svelte
 
 Мы что-то пропустили? Нужна помощь в реализации вашей следующей идеи в Svelte? Присоединяйтесь к нам на [Reddit](https://www.reddit.com/r/sveltejs/) или [Discord](https://discord.com/invite/yy75DKs).
 
