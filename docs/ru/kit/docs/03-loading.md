@@ -9,7 +9,7 @@ title: Загрузка данных
 ```html
 /// file: src/routes/blog/[slug].svelte
 <script context="module">
-	/** @type {import('@sveltejs/kit').Load} */
+	/** @type {import('./[slug]').Load} */
 	export async function load({ params, fetch, session, stuff }) {
 		const url = `https://cms.example.com/article/${params.slug}.json`;
  		const response = await fetch(url);
@@ -25,6 +25,8 @@ title: Загрузка данных
 ```
 
 > Обратите внимание на `<script context="module">` — это необходимо, потому что `load` выполняется до визуализации компонента. Код для каждого экземпляра компонента должен быть размещен во втором теге `<script>`.
+
+Как и в случае с [эндпоинтами](/docs#marshruty-endpointy), страницы могут импортировать [сгенерированные типы](/docs/types#generated) - `./[slug]` в приведенном выше примере - чтобы убедиться, что `params` правильно набраны.
 
 `load` в SvelteKit является эквивалентом функциям `getStaticProps` или `getServerSideProps` в Next.js или `asyncData` в Nuxt.js, за исключением того, что она работает как на сервере, так и на клиенте. В приведенном выше примере, если пользователь нажимает на ссылку на эту страницу, данные будут загуржены с `cms.example.com`, не проходя через наш сервер.
 
@@ -54,7 +56,7 @@ title: Загрузка данных
 
 #### url
 
-`url` - это экземпляр [`URL`](https://developer.mozilla.org/ru-RU/docs/Web/API/URL), содержащий такие свойства, как `origin`, `hostname`, `pathname` и `searchParams`.
+`url` - это экземпляр [`URL`](https://developer.mozilla.org/ru-RU/docs/Web/API/URL), содержащий такие свойства, как `origin`, `hostname`, `pathname` и `searchParams` (который содержит разобранную строку запроса в виде объекта [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)).
 
 > В некоторых средах этот параметр получается из заголовков запроса во время рендеринга на стороне сервера.Если вы используете [adapter-node](/docs#adaptery-podderzhivaemye-platformy-node-js), например, вам может потребоваться настроить адаптер, чтобы URL был правильным.
 

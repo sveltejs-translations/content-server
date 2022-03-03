@@ -57,11 +57,15 @@ declare module '$lib/database' {
 	export const get: (id: string) => Promise<Item>;
 }
 
+// @filename: [id].d.ts
+import type { RequestHandler as GenericRequestHandler } from '@sveltejs/kit';
+export type RequestHandler<Body = any> = GenericRequestHandler<{ id: string }, Body>;
+
 // @filename: index.js
 // ---cut---
 import db from '$lib/database';
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
+/** @type {import('./[id]').RequestHandler} */
 export async function get({ params }) {
 	// `params.id` берётся из [id].js
  	const item = await db.get(params.id);
@@ -79,6 +83,8 @@ export async function get({ params }) {
 ```
 
 > Весь код на стороне сервера, включая эндпоинты, имеет доступ кметоду `fetch` на случай, если вам нужно запросить данные из внешних API. Пока не обращайте внимания на импорт `$lib`, мы вернемся к этому [позже](#moduli-$lib).
+
+Тип функции `get` выше взят из файла `./[id].d.ts`, сгенерированного SvelteKit (внутри вашего [`outDir`](/docs#konfiguracziya-outdir) с использованием опции [`rootDirs`](https://www.typescriptlang.org/tsconfig#rootDirs), который обеспечивает безопасность типа при доступе к `params`. Дополнительную информацию см. в разделе [сгенерированные типы](/docs/types#generated-types).
 
 Цель [обработчика запроса](/docs/types#sveltejs-kit-requesthandler) – вернуть объект `{ status, headers, body }`, который будет ответом на полученный запрос, где `status` является [кодом ответа HTTP](https://httpstatusdogs.com):
 
@@ -149,11 +155,16 @@ declare module '$lib/database' {
 	export const create: (request: Request) => Promise<[Record<string, ValidationError>, Item]>;
 }
 
+// @filename: items.d.ts
+import type { RequestHandler as GenericRequestHandler } from '@sveltejs/kit';
+export type RequestHandler<Body = any> = GenericRequestHandler<{}, Body>;
+
+
 // @filename: index.js
 // ---cut---
 import * as db from '$lib/database'; 
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
+/** @type {import('./items').RequestHandler} */
 export async function get() {
  	const items = await db.list();
 	return {
@@ -161,7 +172,7 @@ export async function get() {
 	};
 }
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
+/** @type {import('./items').RequestHandler} */
 export async function post({ request }) {
 	const [errors, item] = await db.create(request);
 
@@ -360,9 +371,15 @@ src/routes/[...catchall].svelte
 
 ```js
 /// file: src/routes/[a].js
+
+// @filename: [a].d.ts
+import type { RequestHandler as GenericRequestHandler } from '@sveltejs/kit';
+export type RequestHandler<Body = any> = GenericRequestHandler<{ a: string }, Body>;
+
+// @filename: index.js
 // @errors: 2366
-/** @type {import('@sveltejs/kit').RequestHandler} */
 // ---cut---
+/** @type {import('./[a]').RequestHandler} */
 export function get({ params }) {
 	if (params.a === 'foo-def') {
 		return { fallthrough: true };
