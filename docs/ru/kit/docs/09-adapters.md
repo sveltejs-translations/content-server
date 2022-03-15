@@ -105,10 +105,9 @@ export default function (options) {
 - Очищает директорию готовой сборки
 - Записывает вывод SvelteKit с помощью `builder.writeClient`, `builder.writePrerendered`, `builder.writeServer` и `builder.writeStatic`
 - Создаёт код, который:
-  - Импортирует `App` из `${builder.getServerDirectory()}/app.js`
+  - Импортирует `Server` из `${builder.getServerDirectory()}/index.js`
   - Создаёт экземпляр приложения со сгенерированным методом `builder.generateManifest({ relativePath })` манифестом.
-  - Слушает запросы от платформы, при необходимости преобразует их в стандартный [Request](https://developer.mozilla.org/ru-RU/docs/Web/API/Request)и вызывает функцию `render` для создания [Response](https://developer.mozilla.org/ru-RU/
-  - предоставляет любую информацию о конкретной платформе SvelteKit с помощью опции `platform`, переданной `server.respond`
+  - Слушает запросы с платформы и преобразует их в стандартный [Request](https://developer.mozilla.org/en-US/docs/Web/API/Request), при необходимости вызывает функцию `server.respond(request, { getClientAddress })` для создания [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) и отвечает ей
   - Глобально настроит `fetch` для работы на целевой платформе. SvelteKit предоставляет хелпер `@sveltejs/kit/install-fetch` для платформ, которые могут использовать `node-fetch`
 - При необходимости, соберает модули приложения в единый бандл, чтобы избежать установки зависимостей на целевой платформе
 - Помещает статические файлы пользователя и сгенерированные JS/CSS в правильное место для целевой платформы

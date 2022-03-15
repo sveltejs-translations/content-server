@@ -71,10 +71,10 @@ export type RequestHandler<Body = any> = GenericRequestHandler<
 Body
 >;
 
-export type Load<Props = Record<string, any>> = GenericLoad<
-{ foo: string; bar: string; baz: string },
-Props
->;
+export type Load<
+ 	InputProps extends Record<string, any> = Record<string, any>,
+ 	OutputProps extends Record<string, any> = InputProps
+> = GenericLoad<{ foo: string; bar: string; baz: string }, InputProps, OutputProps>
 ```
 
 Эти файлы можно импортировать в конечные точки и страницы в качестве братьев и сестер благодаря опции [`rootDirs`](https://www.typescriptlang.org/tsconfig#rootDirs) в конфигурации TypeScript:
