@@ -32,6 +32,7 @@ const config = {
 			assets: 'static',
 			hooks: 'src/hooks',
 			lib: 'src/lib',
+			params: 'src/params',
 			routes: 'src/routes',
 			serviceWorker: 'src/service-worker',
 			template: 'src/app.html'
@@ -145,6 +146,7 @@ export default config;
 - `assets` — место для размещения статических файлов, которые должны иметь стабильные URL-адреса и не подвергаться обработке, например `favicon.ico` и `manifest.json`
 - `hooks` — путь к файлу хуков (см. [Хуки](#huki))
 - `lib` — внутренняя библиотека вашего приложения, доступная во всей кодовой базе как `$lib`
+- `params` - каталог, содержащий [валидаторы параметров](/docs/routing#advanced-routing-validation)
 - `routes` — файлы, которые определяют структуру вашего приложения ([Маршруты](#marshruty))
 - `serviceWorker` — файл [сервис-воркера](#servis-vorkery)
 - `template` — расположение шаблона для HTML-ответов сервера
