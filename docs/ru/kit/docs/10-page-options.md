@@ -45,7 +45,7 @@ title: Параметры страницы
 </script>
 ```
 
-Кроме того, вы можете установить [`confit.kit.prerender.default`](#konfiguracziya-prerender) в `true` и предварительно отрисовать все, кроме страниц, которые явно помечены как _not_ prerenderable:
+Кроме того, вы можете установить [`config.kit.prerender.default`](#konfiguracziya-prerender) в `true` и предварительно отрисовать все, кроме страниц, которые явно помечены как _not_ prerenderable:
 
 ```html
 <script context="module">

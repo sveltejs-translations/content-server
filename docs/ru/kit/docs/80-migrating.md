@@ -114,7 +114,7 @@ const { preloading, page, session } = stores();
 
 #### Маршрутизация
 
-Маршруты Regex больше не поддерживаются. Вместо этого используйте [перебор маршрутов](/docs#marshruty-rasshirennaya-marshrutizacziya-perebor-marshrutov).
+Маршруты Regex больше не поддерживаются. Вместо этого используйте [сопоставление маршрутов](#marshruty-rasshirennaya-marshrutizacziya-sopostavlenie).
 
 #### URLs
 
