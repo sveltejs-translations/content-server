@@ -93,7 +93,7 @@ _Смотреть_
 - [svelte-cyberComp](https://github.com/Cybersteam00/svelte-cyberComp) — это мощный и легкий компонент Svelte, написанный на Svelte и Typescript.
 - [Flowbite Svelte](https://github.com/shinokada/flowbite-svelte) — неофициальная библиотека компонентов Flowbite для Svelte.
 - [Svelte-Tide-Project](https://github.com/jbertovic/svelte-tide-project) — это начальный шаблон для интерфейсных приложений Svelte с внутренним сервером Rust Tide.
-— [Fetch Inject](https://github.com/vhscom/fetch-inject#sveltekit) реализует метод оптимизации производительности для управления асинхронными зависимостями JavaScript — теперь с поддержкой Svelte.
+- [Fetch Inject](https://github.com/vhscom/fetch-inject#sveltekit) реализует метод оптимизации производительности для управления асинхронными зависимостями JavaScript — теперь с поддержкой Svelte.
 - [svelte-utterances](https://github.com/shinokada/svelte-utterances) — это легкий виджет комментариев, созданный на основе проблем GitHub.
 - [Liquivelte](https://github.com/malipetek/liquivelte-vscode) позволяет создать тему Shopify с компонентами, подобными Svelte.
 - [@storyblok/svelte](https://github.com/storyblok/storyblok-svelte) — это Svelte SDK, необходимый для взаимодействия с Storyblok API и обеспечения возможности визуального редактирования в реальном времени.
