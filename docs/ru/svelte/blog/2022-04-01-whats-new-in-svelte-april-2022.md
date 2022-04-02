@@ -16,14 +16,14 @@ authorURL: https://desandoval.net
 
 
 **Новые параметры конфигурации**
-- `outDir` исправляет проблемы с путями в монорепозиториях и других ситуациях, когда желаемый выходной каталог находится за пределами каталога проекта ([Docs](https://ru.kit.svelte.dev/docs#konfiguracziya-outdir), [#4176](https ://github.com/sveltejs/kit/pull/4176))
+- `outDir` исправляет проблемы с путями в монорепозиториях и других ситуациях, когда желаемый выходной каталог находится за пределами каталога проекта ([Docs](https://ru.kit.svelte.dev/docs#konfiguracziya-outdir), [#4176](https://github.com/sveltejs/kit/pull/4176))
 - `endpointExtensions` предотвращает обработку файлов, отличных от файлов .js и .ts, в качестве эндпоинтов, если только вы не укажете endpointExtensions ([Docs](https://ru.kit.svelte.dev/docs#konfiguracziya-endpointextensions), [#4197](https://github.com/sveltejs/kit/pull/4197))
 - `prerender.default` позволяет выполнять предварительную отрисовку каждой страницы без необходимости писать `export const prerender = true` в каждом файле страницы ([Docs](https://ru.kit.svelte.dev/docs#konfiguracziya-prerender), [#4192](https://github.com/sveltejs/kit/pull/4192))
 
 
 **Breaking Changes**
 - Перебор маршрутов был удален. Советы по миграции см. в PR ([#4330](https://github.com/sveltejs/kit/pull/4330))
-- `tabindex="-1"` добавляется к `<body>` только во время навигации ([#4140](https://github.com/sveltejs/kit/pull/4140) и [#4184](https: //github.com/sveltejs/kit/pull/4184))
+- `tabindex="-1"` добавляется к `<body>` только во время навигации ([#4140](https://github.com/sveltejs/kit/pull/4140) и [#4184](https://github.com/sveltejs/kit/pull/4184))
 - Адаптеры теперь требуются для предоставления функции getClientAddress ([#4289](https://github.com/sveltejs/kit/pull/4289))
 - `InputProps` и `OutputProps` теперь можно вводить отдельно в сгенерированном `Load` ([#4305](https://github.com/sveltejs/kit/pull/4305))
 - Символ `\$` больше не разрешен в динамических параметрах ([#4334](https://github.com/sveltejs/kit/pull/4334))
@@ -83,7 +83,7 @@ _Смотреть_
 - [6 пакетов Svelte, которые вы должны знать](https://www.youtube.com/watch?v=y5SrUKcX_Co) и [Основное преобразование React To Svelte](https://www.youtube.com/watch?v=DiSuwLlhOxs). ) от LevelUpTuts
 - [Конечная точка страницы/тени в SvelteKit](https://www.youtube.com/watch?v=j-9D5UDyVOM) от WebJeda
 - [Custom Svelte Store: Higher Order Store](https://www.youtube.com/watch?v=p1aPfVyZ1IY) от lihautan
-- [SvelteKit для начинающих (плейлист)](https://www.youtube.com/watch?v=bLBHecY4-ak&list=PLA9WiRZ-IS_zXZZyW4qfj0akvOAtk6MFS) от Joy of Code - следуйте [руководству по блогу](https:// joyofcode.xyz/sveltekit-for-beginners)
+- [SvelteKit для начинающих (плейлист)](https://www.youtube.com/watch?v=bLBHecY4-ak&list=PLA9WiRZ-IS_zXZZyW4qfj0akvOAtk6MFS) от Joy of Code - следуйте [руководству по блогу](https://joyofcode.xyz/sveltekit-for-beginners)
 - [Полная авторизация SvelteKit 🔐 с Firebase и Magic Links! 🪄](https://www.youtube.com/watch?v=MAHE4iQgh5Q) Джонни Магрипписа
 - [Аутентификация Firebase в SvelteKit! Приложение Full Stack](https://www.youtube.com/watch?v=N6Y3hqhZvNI) Райана Бодди
 
