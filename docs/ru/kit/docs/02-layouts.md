@@ -164,3 +164,44 @@ src/routes/
 > Макеты также имеют доступ к `error` и `status` через [хранилище страниц](#moduli-$app-stores)
 >
 > Во избежание того, чтобы пользователям стала доступна чувствительная информация, текст ошибок будет очищен от технических подробностей в продакшн режиме работы приложения.
+
+
+#### 404s
+
+Вложенные страницы ошибок отображаются только тогда, когда возникает ошибка при рендеринге определенной страницы. В случае запроса, который не соответствует ни одному существующему маршруту, SvelteKit вместо этого отобразит общий 404. Например, учитывая эти маршруты...
+
+```
+src/routes/
+├ __error.svelte
+├ marx-brothers/
+│ ├ __error.svelte
+│ ├ chico.svelte
+│ ├ harpo.svelte
+│ └ groucho.svelte
+```
+
+...Файл `marx-brothers/__error.svelte` не будет отображаться, если вы посетите `/marx-brothers/karl`. Если вы хотите отобразить вложенную страницу ошибки, вы должны создать маршрут, соответствующий любому запросу `/marx-brothers/*`, и вернуть из него 404:
+
+```diff
+src/routes/
+├ __error.svelte
+├ marx-brothers/
+│ ├ __error.svelte
++│ ├ [...path].svelte
+│ ├ chico.svelte
+│ ├ harpo.svelte
+│ └ groucho.svelte
+```
+
+```svelte
+/// file: src/routes/marx-brothers/[...path.svelte]
+<script context="module">
+/** @type {import('./[...path]').Load} */
+export function load({ params }) {
+	return {
+		status: 404,
+		error: new Error(`Not found: /marx-brothers/${params.path}`)
+	};
+}
+</script>
+```
