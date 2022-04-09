@@ -9,4 +9,5 @@ question: Как мне тестировать Svelte приложения?
 Некоторые ресурсы, которые могут помочь с юнит-тестами:
 
 - [Svelte Testing Library](https://testing-library.com/docs/svelte-testing-library/example/)
+- [Example using vitest](https://github.com/vitest-dev/vitest/tree/main/examples/svelte)
 - [Пример использования uvu вместе с JSDOM](https://github.com/lukeed/uvu/tree/master/examples/svelte)
