@@ -22,7 +22,7 @@ SvelteKit перенаправляет пути с косой чертой в к
 
 ### Ручная настройка
 
-#### `title` и `meta`
+#### &lt;title&gt; and &lt;meta&gt; 
 
 Каждая страница должна иметь хорошо написанные и уникальные элементы `<title>` и `<meta name="description">` внутри [`<svelte:head>`](https://ru.svelte.dev/docs#sintaksis-shablonov-svelte-head). Руководство по написанию описательных заголовков и описаний, а также другие рекомендации по обеспечению понятности контента для поисковых систем можно найти в документации Google [Lighthouse SEO-аудиты] (https://web.dev/lighthouse-seo/).
 

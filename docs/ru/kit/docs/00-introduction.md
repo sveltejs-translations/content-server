@@ -26,7 +26,7 @@ SvelteKit использует [Vite](https://vitejs.dev/) вместе со [Sv
 Самый простой способ создать приложение SvelteKit — запустить команду `npm init`:
 
 ```bash
-npm init svelte@next my-app
+npm init svelte my-app
 cd my-app
 npm install
 npm run dev
