@@ -42,7 +42,7 @@ declare namespace App {
 
 ### Сгенерированные типы
 
-[`RequestHandler`](#sveltejs-kit-requesthandler) и [`Load`](#sveltejs-kit-load) типы оба принимают аргумент `Params`, позволяя вам ввести объект `params`. Например, этот эгдпоинт ожидает параметры `foo`, `bar` и `baz`:
+Типы `RequestHandler` и `Load` принимают аргумент `Params`, позволяя вам ввести объект `params`. Например, этот эндпоинт ожидает параметры `foo`, `bar` и `baz`:
 
 ```js
 /// file: src/routes/[foo]/[bar]/[baz].js
@@ -74,7 +74,7 @@ Body
 export type Load<
  	InputProps extends Record<string, any> = Record<string, any>,
  	OutputProps extends Record<string, any> = InputProps
-> = GenericLoad<{ foo: string; bar: string; baz: string }, InputProps, OutputProps>
+> = GenericLoad<{ foo: string; bar: string; baz: string }, InputProps, OutputProps>;
 ```
 
 Эти файлы можно импортировать в конечные точки и страницы в качестве братьев и сестер благодаря опции [`rootDirs`](https://www.typescriptlang.org/tsconfig#rootDirs) в конфигурации TypeScript:
@@ -110,3 +110,49 @@ export async function load({ params, fetch, session, stuff }) {
 > Чтобы это сработало, ваш собственный `tsconfig.json` или `jsconfig.json` должен расширяться от сгенерированного `.svelte-kit/tsconfig.json` (где `.svelte-kit` - ваш [`outDir`](/docs#konfiguracziya-outdir)):
 >
 >     { "extends": "./.svelte-kit/tsconfig.json" }
+
+
+#### tsconfig.json
+
+Сгенерированный файл `.svelte-kit/tsconfig.json` содержит смесь опций. Некоторые из них генерируются программно на основе конфигурации вашего проекта и, как правило, не должны быть переопределены без уважительной причины:
+
+```json
+// file: .svelte-kit/tsconfig.json
+{
+ 	"compilerOptions": {
+ 		"baseUrl": "..",
+ 		"paths": {
+ 			"$lib": "src/lib",
+ 			"$lib/*": "src/lib/*"
+ 		},
+ 		"rootDirs": ["..", "./types"]
+ 	},
+ 	"include": ["../src/**/*.js", "../src/**/*.ts", "../src/**/*.svelte"],
+ 	"exclude": ["../node_modules/**", "./**"]
+}
+```
+
+Другие необходимы для правильной работы SvelteKit, а также должны оставаться нетронутыми, если вы не знаете, что делаете:
+
+```json
+// file: .svelte-kit/tsconfig.json
+{
+	"compilerOptions": {
+		// это гарантирует, что типы явно
+		// импортируется с `import type`, который
+		// необходимо, так как svelte-preprocess не может
+		// в противном случае правильно компилируйте компоненты
+		"importsNotUsedAsValues": "error",
+
+		// Vite компилирует один модуль TypeScript
+		// за раз, а не компилировать
+		// весь график модуля
+		"isolatedModules": true,
+
+		// TypeScript не может "видеть", когда вы
+		// используйте импортированное значение в вашем
+		// разметка, поэтому нам это нужно
+		"preserveValueImports": true
+	}
+}
+```
