@@ -564,9 +564,33 @@ store = spring(value: any, options)
 
 ---
 
-Как и в случае с [`tweened`](/docs#rantajm-svelte-motion-tweened) хранилищами, `set` и `update` возвращают промис, который выполняется, когда колебания прекратятся. Свойства `store.stiffness` и`store.damping` могут быть изменены, даже во время колебаний и применяются немедленно.
+Все вышеперечисленные опции могут быть изменены, даже во время колебаний и применяются немедленно.
+
+```js
+const size = spring(100);
+size.stiffness = 0.3;
+size.damping = 0.4;
+size.precision = 0.005;
+```
+
+---
+
+Как и в случае с [`tweened`](/docs#rantajm-svelte-motion-tweened) хранилищами, `set` и `update` возвращают промис, который выполняется, когда колебания прекратятся.>
 
 Оба метода `set` и `update` могут принимать второй аргумент — объект со свойствами `hard` или `soft`. `{ hard: true }` устанавливает новое значение немедленно; `{ soft: n }` сохраняет существующий импульс в течение `n` секунд перед установкой значения. `{ soft: true }` эквивалентно `{ soft: 0.5 }`.
+
+```js
+const coords = spring({ x: 50, y: 50 });
+// обновляет значение немедленно
+coords.set({ x: 100, y: 200 }, { hard: true });
+// сохраняет существующий импульс 1с
+coords.update(
+	(target_coords, coords) => {
+		return { x: target_coords.x, y: coords.y };
+	},
+	{ soft: 1 }
+);
+ ```
 
 [Посмотрите полноценный пример.](/tutorial/spring)
 
