@@ -88,10 +88,10 @@ title: Макеты
 src/routes/
 ├ x/
 │ ├ __layout-foo.svelte
-│ ├ one@foo.svelte
-│ ├ two@foo.svelte
-│ └ three.svelte
-└ four@foo.svelte
+│ ├ one@foo.svelte       # ✅ page has `@foo`
+│ ├ two@foo.svelte       # ✅ page has `@foo`
+│ └ three.svelte         # ❌ page does not have `@foo`
+└ four@foo.svelte        # ❌ page has `@foo`, but __layout-foo is not 'in scope'
 ```
 
 #### Цепи наследования
