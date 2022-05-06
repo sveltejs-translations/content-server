@@ -152,7 +152,14 @@ export async function load({ params, fetch, session, stuff }) {
 		// TypeScript не может "видеть", когда вы
 		// используйте импортированное значение в вашем
 		// разметка, поэтому нам это нужно
-		"preserveValueImports": true
+		"preserveValueImports": true,
+
+		// Настройки для праивильной работы
+ 		// `svelte-kit build` и `svelte-kit package`
+ 		"lib": ["esnext", "DOM"],
+ 		"moduleResolution": "node",
+ 		"module": "esnext",
+ 		"target": "esnext"
 	}
 }
 ```
