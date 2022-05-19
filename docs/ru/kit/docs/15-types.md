@@ -62,7 +62,7 @@ export async function get({ params }) {
 Чтобы решить эту проблему, SvelteKit генерирует файлы `.d.ts` для каждой из ваших конечных точек и страниц:
 
 ```ts
-/// file: .svelte-kit/types/src/routes/[foo]/[bar]/[baz].d.ts
+/// file: .svelte-kit/types/src/routes/[foo]/[bar]/__types/[baz].d.ts
 /// link: false
 import type { RequestHandler as GenericRequestHandler, Load as GenericLoad } from '@sveltejs/kit';
 
@@ -81,7 +81,7 @@ export type Load<
 
 ```js
 /// file: src/routes/[foo]/[bar]/[baz].js
-// @filename: [baz].d.ts
+// @filename: __types/[baz].d.ts
 import type { RequestHandler as GenericRequestHandler, Load as GenericLoad } from '@sveltejs/kit';
 
 export type RequestHandler<Body = any> = GenericRequestHandler<
@@ -92,7 +92,7 @@ Body
 // @filename: index.js
 // @errors: 2355
 // ---cut---
-/** @type {import('./[baz]').RequestHandler} */
+/** @type {import('./__types/[baz]').RequestHandler} */
 export async function get({ params }) {
 // ...
 }
@@ -100,7 +100,7 @@ export async function get({ params }) {
 
 ```svelte
 <script context="module">
-/** @type {import('./[baz]').Load} */
+/** @type {import('./__types/[baz]').Load} */
 export async function load({ params, fetch, session, stuff }) {
 	// ...
 }
