@@ -15,7 +15,6 @@ const config = {
 
 	kit: {
 		adapter: undefined,
-		amp: false,
 		appDir: '_app',
 		browser: {
  			hydrate: true,
@@ -89,10 +88,6 @@ export default config;
 ### adapter
 
 Требуется при запуске `svelte-kit build` и определяет, как преобразуется вывод для разных платформ. См. [Адаптеры](#adaptery).
-
-### amp
-
-Включить режим [AMP](#seo-ruchnaya-nastrojka-amp).
 
 ### appDir
 

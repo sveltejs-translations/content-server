@@ -9,7 +9,7 @@ title: Загрузка данных
 ```html
 /// file: src/routes/blog/[slug].svelte
 <script context="module">
-	/** @type {import('./[slug]').Load} */
+	/** @type {import('./__types/[slug]').Load} */
 	export async function load({ params, fetch, session, stuff }) {
 		const url = `https://cms.example.com/article/${params.slug}.json`;
  		const response = await fetch(url);
@@ -56,7 +56,7 @@ title: Загрузка данных
 
 #### url
 
-`url` - это экземпляр [`URL`](https://developer.mozilla.org/ru-RU/docs/Web/API/URL), содержащий такие свойства, как `origin`, `hostname`, `pathname` и `searchParams` (который содержит разобранную строку запроса в виде объекта [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)).
+`url` - это экземпляр [`URL`](https://developer.mozilla.org/ru-RU/docs/Web/API/URL), содержащий такие свойства, как `origin`, `hostname`, `pathname` и `searchParams` (который содержит разобранную строку запроса в виде объекта [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)). `url.hash` недоступен во время `load`, так как он недоступен на сервере.
 
 > В некоторых средах этот параметр получается из заголовков запроса во время рендеринга на стороне сервера.Если вы используете [adapter-node](/docs#adaptery-podderzhivaemye-platformy-node-js), например, вам может потребоваться настроить адаптер, чтобы URL был правильным.
 

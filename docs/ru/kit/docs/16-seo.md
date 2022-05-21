@@ -22,7 +22,7 @@ SvelteKit перенаправляет пути с косой чертой в к
 
 ### Ручная настройка
 
-#### &lt;title&gt; and &lt;meta&gt; 
+#### &lt;title&gt; and &lt;meta&gt;
 
 Каждая страница должна иметь хорошо написанные и уникальные элементы `<title>` и `<meta name="description">` внутри [`<svelte:head>`](https://ru.svelte.dev/docs#sintaksis-shablonov-svelte-head). Руководство по написанию описательных заголовков и описаний, а также другие рекомендации по обеспечению понятности контента для поисковых систем можно найти в документации Google [Lighthouse SEO-аудиты] (https://web.dev/lighthouse-seo/).
 
@@ -83,8 +83,40 @@ export async function get() {
 
 #### AMP
 
-Печальная реальность современной веб-разработки заключается в том, что иногда необходимо создать версию вашего сайта [Accelerated Mobile Pages (AMP)](https://amp.dev/). В SvelteKit это можно сделать, установив параметр конфигурации [`amp`](#konfiguracziya-amp), который имеет следующие эффекты:
+Печальная реальность современной веб-разработки заключается в том, что иногда необходимо создать [Ускоренную мобильную страницу (AMP)](https://amp.dev/) версию вашего сайта. В SvelteKit это можно сделать, принудив следующие параметры [конфигурация](#konfiguracziya)...
 
-- Клиентский JavaScript, включая маршрутизатор, отключен.
-- Стили объединяются в `<style amp-custom>`, и вводится [шаблон AMP](https://amp.dev/boilerplate/).
-- В процессе разработки запросы проверяются с помощью [валидатора AMP](https://validator.ampproject.org/), поэтому вы получаете раннее предупреждение о любых ошибках.
+```js
+/// file: svelte.config.js
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	kit: {
+		// комбинация этих опций
+		// отключает JavaScript
+		browser: {
+			hydrate: false,
+			router: false
+		},
+
+		// так как <link rel="stylesheet"> не
+		// разрешено, все стили инлайнятся
+		inlineStyleThreshold: Infinity
+	}
+};
+
+export default config;
+```
+
+...и преобразование HTML с помощью `transformPage` вместе с `transform`, импортированным из `@sveltejs/amp`:
+
+```js
+import * as amp from '@sveltejs/amp';
+
+/** @type {import('@sveltejs/kit').Handle} */
+export async function handle({ event, resolve }) {
+	return resolve(event, {
+		transformPage: ({ html }) => amp.transform(html)
+	});
+}
+```
+
+> Рекомендуется использовать хук `handle` для проверки преобразованного HTML с помощью `amphtml-validator`, но только если вы предварительно отрисовываете страницы, так как это очень медленно.
