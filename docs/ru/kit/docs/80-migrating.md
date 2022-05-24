@@ -65,7 +65,7 @@ SvelteKit является преемником Sapper и разделяет м�
 
 Файл `src/template.html` должен быть переименован в `src/app.html`.
 
-Удалите `%sapper.base%`, `%sapper.scripts%` и `%sapper.styles%`. Замените `%sapper.head%` на `%svelte.head%` и `%sapper.html%` на `%svelte.body%`. `<div id="sapper">` больше не нужен.
+Удалите `%sapper.base%`, `%sapper.scripts%` и `%sapper.styles%`. Замените `%sapper.head%` на `%sveltekit.head%` и `%sapper.html%` на `%sveltekit.body%`. `<div id="sapper">` больше не нужен.
 
 #### src/node_modules
 

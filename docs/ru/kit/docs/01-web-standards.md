@@ -12,7 +12,7 @@ title: Веб-стандарты
 
 SvelteKit использует [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/fetch) для получения данных из сети. Он доступен в [хуках](#huki) и [эндпоинтах](#marshruty-endpointy), а также в браузере.
 
-> Специальная версия `fetch` доступна в функциях [`load`](#zagruzka-dannyh) для доступа к данным непосредственно из эндпоинтов при сохранении учетных данных.
+> Специальная версия `fetch` доступна в функциях [`load`](#zagruzka-dannyh) для вызова эндпоинтов непосредственно во время рендеринга на стороне сервера, без вызова HTTP, сохраняя при этом учетные данные. (Чтобы сделать учетные данные в коде на стороне сервера за пределами `load`, вы должны явно передать заголовки `cookie` и/или `authorization`.) Это также позволяет делать относительные запросы, но для выборки на стороне сервера обычно требуется полный URL-адрес.
 
 Помимо самой `fetch`, [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) включает в себя следующие интерфейсы:
 
@@ -64,4 +64,12 @@ export {};
 // @filename: index.js
 // ---cut---
 const foo = url.searchParams.get('foo');
+```
+
+### Web Crypto
+
+[Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) доступен через глобальный объект "crypto". Он используется внутри для заголовков [Политика безопасности контента](#konfiguracziya-csp), но вы также можете использовать его для таких вещей, как генерация UUID:
+
+```js
+const uuid = crypto.randomUUID();
 ```
