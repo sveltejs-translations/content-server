@@ -19,7 +19,7 @@ import { clickOutside } from "./click_outside.js";
 
 ```html
 <div class="box" use:clickOutside on:outclick="{() => (showModal = false)}">
- 	Click outside me!
+ 	Кликни вне меня!
  </div>
 ```
 

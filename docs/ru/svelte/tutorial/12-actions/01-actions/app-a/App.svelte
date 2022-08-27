@@ -5,7 +5,7 @@
 <button on:click={() => (showModal = true)}>Show Modal</button>
  {#if showModal}
  	<div class="box" on:outclick={() => (showModal = false)}>
- 		Click outside me!
+ 		Кликни вне меня!
  	</div>
  {/if}
 
